@@ -1,0 +1,3876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get your SEAT — High-Demand Event Seat Booking &amp; AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========================================================================
+       1. DESIGN TOKENS (LIGHT & DARK MODE, SPACING, RADII, TYPOGRAPHY)
+       ======================================================================== */
+    :root {
+      --bg-canvas: #f8fafc;
+      --bg-surface: rgba(255, 255, 255, 0.92);
+      --bg-solid: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --bg-header: rgba(255, 255, 255, 0.88);
+
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --text-on-accent: #ffffff;
+
+      --border-default: rgba(148, 163, 184, 0.35);
+      --border-strong: #cbd5e1;
+
+      --accent-primary: #6366f1;
+      --accent-primary-hover: #4f46e5;
+      --accent-secondary: #38bdf8;
+      --accent-soft: rgba(99, 102, 241, 0.13);
+      --accent-ink: #3730a3;
+
+      --logo-grad-start: #8b7cf6;
+      --logo-grad-mid: #6366f1;
+      --logo-grad-end: #38bdf8;
+
+      --ai-accent: #9333ea;
+      --ai-soft: rgba(147, 51, 234, 0.12);
+      --ai-border: rgba(147, 51, 234, 0.38);
+      --ai-ink: #6b21a8;
+
+      --success-bg: rgba(16, 185, 129, 0.14);
+      --success-border: rgba(16, 185, 129, 0.42);
+      --success-ink: #065f46;
+
+      --warn-bg: rgba(245, 158, 11, 0.15);
+      --warn-border: rgba(245, 158, 11, 0.45);
+      --warn-ink: #92400e;
+
+      --danger-bg: rgba(239, 68, 68, 0.14);
+      --danger-border: rgba(239, 68, 68, 0.45);
+      --danger-ink: #991b1b;
+
+      /* 5-State Seat Tokens (Color + Border + Icon/Pattern) */
+      --seat-avail-bg: rgba(16, 185, 129, 0.14);
+      --seat-avail-border: #10b981;
+      --seat-avail-fg: #065f46;
+
+      --seat-sel-bg: #4f46e5;
+      --seat-sel-border: #312e81;
+      --seat-sel-fg: #ffffff;
+
+      --seat-held-bg: rgba(245, 158, 11, 0.16);
+      --seat-held-border: #f59e0b;
+      --seat-held-fg: #92400e;
+
+      --seat-booked-bg: #e2e8f0;
+      --seat-booked-border: #94a3b8;
+      --seat-booked-fg: #475569;
+
+      --seat-blocked-bg: rgba(225, 29, 72, 0.14);
+      --seat-blocked-border: #e11d48;
+      --seat-blocked-fg: #9f1239;
+
+      --aurora-1: rgba(139, 124, 246, 0.24);
+      --aurora-2: rgba(56, 189, 248, 0.2);
+      --aurora-3: rgba(236, 72, 153, 0.16);
+
+      /* Spacing Scale */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+
+      /* Corner Radius Scale */
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+      --radius-pill: 9999px;
+
+      /* Typography Scale */
+      --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --fs-xs: 0.75rem;
+      --fs-sm: 0.875rem;
+      --fs-md: 1rem;
+      --fs-lg: 1.125rem;
+      --fs-xl: 1.375rem;
+      --fs-2xl: 1.85rem;
+
+      /* Elevation */
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 12px 28px rgba(15, 23, 42, 0.1);
+      --shadow-glow: 0 0 0 1px rgba(139, 124, 246, 0.28), 0 20px 48px rgba(79, 70, 229, 0.16);
+    }
+
+    [data-theme="dark"] {
+      --bg-canvas: #070913;
+      --bg-surface: rgba(15, 23, 42, 0.86);
+      --bg-solid: #0f172a;
+      --bg-subtle: #1e293b;
+      --bg-header: rgba(9, 13, 25, 0.9);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-on-accent: #ffffff;
+
+      --border-default: rgba(148, 163, 184, 0.22);
+      --border-strong: #334155;
+
+      --accent-primary: #6366f1;
+      --accent-primary-hover: #818cf8;
+      --accent-secondary: #38bdf8;
+      --accent-soft: rgba(99, 102, 241, 0.2);
+      --accent-ink: #e0e7ff;
+
+      --logo-grad-start: #9b87f5;
+      --logo-grad-mid: #6366f1;
+      --logo-grad-end: #38bdf8;
+
+      --ai-accent: #a855f7;
+      --ai-soft: rgba(168, 85, 247, 0.18);
+      --ai-border: rgba(192, 132, 252, 0.42);
+      --ai-ink: #f3e8ff;
+
+      --success-bg: rgba(16, 185, 129, 0.16);
+      --success-border: rgba(52, 211, 153, 0.4);
+      --success-ink: #a7f3d0;
+
+      --warn-bg: rgba(245, 158, 11, 0.16);
+      --warn-border: rgba(251, 191, 36, 0.45);
+      --warn-ink: #fde68a;
+
+      --danger-bg: rgba(239, 68, 68, 0.18);
+      --danger-border: rgba(248, 113, 113, 0.45);
+      --danger-ink: #fecaca;
+
+      --seat-avail-bg: rgba(16, 185, 129, 0.16);
+      --seat-avail-border: #34d399;
+      --seat-avail-fg: #a7f3d0;
+
+      --seat-sel-bg: #6366f1;
+      --seat-sel-border: #e0e7ff;
+      --seat-sel-fg: #ffffff;
+
+      --seat-held-bg: rgba(245, 158, 11, 0.18);
+      --seat-held-border: #fbbf24;
+      --seat-held-fg: #fde68a;
+
+      --seat-booked-bg: #1e293b;
+      --seat-booked-border: #64748b;
+      --seat-booked-fg: #cbd5e1;
+
+      --seat-blocked-bg: rgba(225, 29, 72, 0.2);
+      --seat-blocked-border: #fb7185;
+      --seat-blocked-fg: #fecdd3;
+
+      --aurora-1: rgba(139, 124, 246, 0.34);
+      --aurora-2: rgba(56, 189, 248, 0.24);
+      --aurora-3: rgba(168, 85, 247, 0.22);
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
+      --shadow-md: 0 14px 32px rgba(0, 0, 0, 0.65);
+      --shadow-glow: 0 0 0 1px rgba(155, 135, 245, 0.3), 0 24px 55px rgba(79, 70, 229, 0.32);
+    }
+
+    /* ========================================================================
+       2. RESET, AURORA MESH & ACCESSIBILITY
+       ======================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      font-size: var(--fs-md);
+      line-height: 1.5;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .aurora-backdrop {
+      position: fixed;
+      inset: -20%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 20%, var(--aurora-1), transparent 42%),
+        radial-gradient(circle at 82% 18%, var(--aurora-2), transparent 44%),
+        radial-gradient(circle at 65% 84%, var(--aurora-3), transparent 46%);
+      filter: blur(48px);
+      animation: auroraDrift 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraDrift {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-2%, 2.5%, 0) scale(1.04); }
+      100% { transform: translate3d(2%, -1.5%, 0) scale(1.02); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .aurora-backdrop { animation: none; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    button, input, select {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent-primary);
+      outline-offset: 2px;
+    }
+
+    .hidden { display: none !important; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ========================================================================
+       3. BRAND LOGO ("GS" GRADIENT BADGE + "Get your SEAT" WORDMARK) & HEADER
+       ======================================================================== */
+    .gs-brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--logo-grad-start) 0%, var(--logo-grad-mid) 52%, var(--logo-grad-end) 100%);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.38);
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .gs-brand-mark--lg {
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+      font-size: 1.2rem;
+    }
+
+    .gs-wordmark {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.28rem;
+    }
+
+    .gs-wordmark .seat-caps {
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      background: linear-gradient(90deg, var(--logo-grad-start), var(--logo-grad-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background-color: var(--bg-header);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .brand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: transparent;
+      border: none;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-lg);
+      cursor: pointer;
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      min-height: 40px;
+      padding: 0.45rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    .nav-btn[aria-current="page"] {
+      background-color: var(--accent-soft);
+      color: var(--accent-ink);
+      border-color: rgba(99, 102, 241, 0.35);
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .profile-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--accent-soft);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--accent-ink);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background-color: #10b981;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: livePulse 2s infinite;
+    }
+
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .page-main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-4) 5rem;
+    }
+
+    /* ========================================================================
+       4. SHARED GLASS CARDS, BUTTONS, INPUTS & BANNERS
+       ======================================================================== */
+    .glass-card {
+      background-color: var(--bg-surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 44px;
+      padding: 0.65rem 1.2rem;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.14s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
+      color: var(--text-on-accent);
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-solid);
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--bg-subtle);
+    }
+
+    .btn-ai {
+      background: linear-gradient(135deg, var(--ai-accent), var(--accent-primary));
+      color: #ffffff;
+    }
+
+    .btn-danger {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: #b91c1c;
+    }
+
+    .btn-sm {
+      min-height: 36px;
+      padding: 0.35rem 0.8rem;
+      font-size: var(--fs-xs);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .form-label {
+      font-size: var(--fs-sm);
+      font-weight: 700;
+    }
+
+    .form-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.6rem 0.9rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-solid);
+      color: var(--text-primary);
+      font-size: var(--fs-md);
+    }
+
+    .form-input:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+      outline: none;
+    }
+
+    .form-input[aria-invalid="true"] {
+      border-color: #dc2626;
+    }
+
+    .password-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-input-wrap .form-input {
+      padding-right: 4.5rem;
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 0.45rem;
+      min-height: 34px;
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .password-toggle-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .field-error {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      color: #dc2626;
+      min-height: 1rem;
+    }
+
+    .banner {
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      font-size: var(--fs-sm);
+      margin-bottom: var(--space-4);
+    }
+
+    .banner-warn {
+      background-color: var(--warn-bg);
+      border-color: var(--warn-border);
+      color: var(--warn-ink);
+    }
+
+    .banner-danger {
+      background-color: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger-ink);
+    }
+
+    .banner-success {
+      background-color: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-ink);
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ========================================================================
+       5. DYNAMIC SPLIT SIGN-IN LANDING VIEW (MRIDUL PATHANIA)
+       ======================================================================== */
+    .signin-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: stretch;
+      max-width: 1140px;
+      margin: var(--space-2) auto;
+    }
+
+    @media (min-width: 960px) {
+      .signin-hero-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: var(--space-8);
+        align-items: center;
+      }
+    }
+
+    .showcase-panel {
+      padding: var(--space-6);
+      box-shadow: var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .showcase-panel {
+        padding: var(--space-8);
+      }
+    }
+
+    .brand-hero-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .demand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, rgba(139, 124, 246, 0.16), rgba(56, 189, 248, 0.18));
+      border: 1px solid rgba(139, 124, 246, 0.42);
+      color: var(--accent-ink);
+      font-size: var(--fs-xs);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-display-title {
+      margin: var(--space-2) 0 var(--space-3);
+      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+
+    .welcome-greeting-box {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(125deg, rgba(139, 124, 246, 0.16), rgba(56, 189, 248, 0.14));
+      border: 1px solid rgba(139, 124, 246, 0.35);
+      margin-bottom: var(--space-4);
+    }
+
+    .mini-arena-box {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background-color: var(--bg-solid);
+      border: 1px solid var(--border-default);
+    }
+
+    .mini-stage-bar {
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, var(--logo-grad-start), var(--logo-grad-mid), var(--logo-grad-end));
+      margin-bottom: var(--space-3);
+    }
+
+    .mini-seat-row {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .mini-seat-cell {
+      height: 28px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid;
+    }
+
+    .mini-seat-cell.lock-anim {
+      animation: seatLockFlash 2.6s ease-in-out infinite;
+    }
+
+    @keyframes seatLockFlash {
+      0%, 100% {
+        background-color: var(--seat-avail-bg);
+        border-color: var(--seat-avail-border);
+        color: var(--seat-avail-fg);
+      }
+      50% {
+        background-color: var(--seat-sel-bg);
+        border-color: var(--seat-sel-border);
+        color: #ffffff;
+        transform: scale(1.06);
+      }
+    }
+
+    .signin-card {
+      padding: var(--space-6);
+      box-shadow: var(--shadow-glow);
+    }
+
+    @media (min-width: 768px) {
+      .signin-card {
+        padding: var(--space-8);
+      }
+    }
+
+    /* ========================================================================
+       6. EVENTS, SEAT MAP & AI ASSISTANT, CHECKOUT, PASS & BOOKINGS
+       ======================================================================== */
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-6);
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: var(--fs-2xl);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      margin: 0.25rem 0 0;
+      font-size: var(--fs-sm);
+      color: var(--text-secondary);
+    }
+
+    .filter-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-6);
+    }
+
+    .pill-group {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      min-height: 40px;
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-solid);
+      color: var(--text-secondary);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filter-pill[aria-pressed="true"] {
+      background-color: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-6);
+    }
+
+    .event-card {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .event-banner {
+      position: relative;
+      height: 168px;
+      padding: var(--space-4);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .event-banner-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: -2;
+      transition: transform 0.35s ease;
+    }
+
+    .event-card:hover .event-banner-img {
+      transform: scale(1.06);
+    }
+
+    .event-banner-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.86;
+      background: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.32) 0%,
+        rgba(15, 23, 42, 0.78) 100%
+      );
+    }
+
+    .banner-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .cat-tag {
+      background-color: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(6px);
+      padding: 0.22rem 0.65rem;
+      border-radius: var(--radius-pill);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .left-tag {
+      background-color: #ffffff;
+      color: #0f172a;
+      font-family: var(--font-mono);
+      padding: 0.22rem 0.65rem;
+      border-radius: var(--radius-pill);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+    }
+
+    .event-content {
+      padding: var(--space-4);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .event-footer {
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border-default);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .skeleton-box {
+      background: linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-strong) 50%, var(--bg-subtle) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: var(--radius-sm);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .seatmap-grid-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .seatmap-grid-layout {
+        grid-template-columns: minmax(0, 1fr) 370px;
+      }
+    }
+
+    .seatmap-panel {
+      padding: var(--space-4);
+      min-width: 0;
+    }
+
+    @media (min-width: 768px) {
+      .seatmap-panel {
+        padding: var(--space-6);
+      }
+    }
+
+    .stage-arc {
+      max-width: 480px;
+      height: 34px;
+      margin: 0 auto var(--space-4);
+      border-top: 4px solid var(--accent-primary);
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      background: linear-gradient(180deg, var(--accent-soft), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--fs-xs);
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ink);
+    }
+
+    .legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      margin-bottom: var(--space-4);
+      background-color: var(--bg-subtle);
+      border-radius: var(--radius-md);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+    }
+
+    .legend-entry {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .legend-box {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 2px solid;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+    }
+
+    .map-controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-3);
+      font-size: var(--fs-xs);
+      color: var(--text-secondary);
+    }
+
+    .highlighted-pricing-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: var(--radius-md);
+      background: linear-gradient(90deg, var(--accent-soft), rgba(16, 185, 129, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.34);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .price-tier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--bg-solid);
+      border: 1px solid var(--border-strong);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent-ink);
+    }
+
+    .price-toggle-btn.is-active {
+      background-color: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+    }
+
+    .seat-viewport {
+      width: 100%;
+      overflow-x: visible;
+      overflow-y: visible;
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-canvas);
+      padding: var(--space-4) var(--space-3);
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 640px) {
+      .seat-viewport {
+        overflow-x: auto;
+        overflow-y: visible;
+      }
+    }
+
+    .seat-viewport.panning {
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    .seat-board {
+      min-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      align-items: center;
+      transform-origin: top center;
+      transition: transform 0.16s ease;
+    }
+
+    .seat-row {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .row-tag {
+      width: 22px;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .aisle-gap { width: 22px; }
+
+    .seat-node-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .seat-node {
+      width: 48px;
+      height: 50px;
+      min-width: 48px;
+      min-height: 50px;
+      border-radius: 10px;
+      border: 2px solid;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.08rem;
+      line-height: 1.05;
+      cursor: pointer;
+      padding: 0.1rem;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .seat-node .seat-sym { font-size: 0.66rem; }
+
+    .seat-price-tag {
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 0.04rem 0.24rem;
+      border-radius: 4px;
+      background-color: rgba(15, 23, 42, 0.08);
+      letter-spacing: -0.02em;
+    }
+
+    [data-theme="dark"] .seat-price-tag {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .seat-selected .seat-price-tag {
+      background-color: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+    }
+
+    .seat-board.prices-hidden .seat-price-tag {
+      display: none;
+    }
+
+    .seat-board.prices-hidden .seat-node {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .seat-available {
+      background-color: var(--seat-avail-bg);
+      border-color: var(--seat-avail-border);
+      color: var(--seat-avail-fg);
+    }
+
+    .seat-available:hover { transform: scale(1.06); }
+
+    .seat-selected {
+      background-color: var(--seat-sel-bg);
+      border-color: var(--seat-sel-border);
+      color: var(--seat-sel-fg);
+      transform: scale(1.06);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    .seat-held {
+      background-color: var(--seat-held-bg);
+      border-color: var(--seat-held-border);
+      border-style: dashed;
+      color: var(--seat-held-fg);
+      cursor: not-allowed;
+    }
+
+    .seat-booked {
+      background-color: var(--seat-booked-bg);
+      border-color: var(--seat-booked-border);
+      color: var(--seat-booked-fg);
+      cursor: not-allowed;
+    }
+
+    .seat-blocked {
+      background-color: var(--seat-blocked-bg);
+      border-color: var(--seat-blocked-border);
+      color: var(--seat-blocked-fg);
+      cursor: not-allowed;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 5px,
+        rgba(225, 29, 72, 0.15) 5px,
+        rgba(225, 29, 72, 0.15) 10px
+      );
+    }
+
+    /* Hover/focus-only countdown popover for blocked seats */
+    .blocked-hover-popover {
+      position: fixed;
+      z-index: 55;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -100%) translateY(-8px);
+      transition: opacity 0.14s ease, transform 0.14s ease;
+      background-color: #0f172a;
+      color: #ffffff;
+      border: 1.5px solid #fb7185;
+      border-radius: var(--radius-md);
+      padding: 0.45rem 0.7rem;
+      font-family: var(--font-sans);
+      font-size: var(--fs-xs);
+      line-height: 1.35;
+      white-space: nowrap;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.45);
+    }
+
+    .blocked-hover-popover.is-visible {
+      opacity: 1;
+      transform: translate(-50%, -100%) translateY(-12px);
+    }
+
+    .blocked-hover-clock {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: #fda4af;
+      font-size: 0.82rem;
+    }
+
+    .seat-ai-pulse {
+      box-shadow: 0 0 0 3px var(--ai-accent), 0 0 16px rgba(147, 51, 234, 0.55);
+      animation: aiPulse 1.35s ease-in-out infinite;
+    }
+
+    .seat-conflict-ring {
+      box-shadow: 0 0 0 3px #dc2626;
+    }
+
+    @keyframes aiPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .selection-bar {
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border-default);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .token-chip {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--accent-soft);
+      color: var(--accent-ink);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .ai-sidebar {
+      padding: var(--space-5);
+      border-color: var(--ai-border);
+      background: linear-gradient(180deg, var(--ai-soft) 0%, var(--bg-surface) 110px);
+    }
+
+    .ai-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+
+    .ai-badge {
+      background-color: var(--ai-accent);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .chip-btn {
+      background-color: var(--bg-solid);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-pill);
+      padding: 0.35rem 0.75rem;
+      min-height: 34px;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--ai-accent);
+      color: var(--ai-ink);
+    }
+
+    .ai-result-card {
+      margin-top: var(--space-3);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--ai-border);
+      font-size: var(--fs-sm);
+    }
+
+    .narrow-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .timer-banner {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background-color: var(--accent-soft);
+      border: 1px solid var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+
+    .timer-banner.urgent {
+      background-color: var(--warn-bg);
+      border-color: var(--warn-border);
+      color: var(--warn-ink);
+    }
+
+    .timer-clock {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border-default);
+      font-size: var(--fs-sm);
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: var(--space-4);
+      font-size: var(--fs-lg);
+      font-weight: 800;
+    }
+
+    .pass-card {
+      max-width: 520px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 2px solid var(--accent-primary);
+    }
+
+    .pass-header {
+      background: linear-gradient(135deg, var(--logo-grad-start), var(--logo-grad-mid), var(--logo-grad-end));
+      color: #ffffff;
+      padding: var(--space-6);
+    }
+
+    .pass-divider {
+      border-top: 2px dashed var(--border-strong);
+      margin: 0 var(--space-4);
+    }
+
+    .pass-body {
+      padding: var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .scan-ticket-photo-box {
+      width: 142px;
+      background-color: #ffffff;
+      color: #0f172a;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 0.55rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .scan-ticket-img {
+      width: 124px;
+      height: auto;
+      max-height: 185px;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .tab-switch {
+      display: inline-flex;
+      background-color: var(--bg-subtle);
+      padding: 0.25rem;
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-5);
+    }
+
+    .tab-btn {
+      min-height: 40px;
+      padding: 0.45rem 1rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab-btn[aria-selected="true"] {
+      background-color: var(--bg-solid);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .booking-card {
+      padding: var(--space-5);
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    /* ========================================================================
+       7. MODAL DIALOGS (SEAT-QUANTITY CANCELLATION & REFUND CONFIRMATION POP-UP)
+       ======================================================================== */
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 60;
+    }
+
+    .dialog-card {
+      max-width: 460px;
+      width: 100%;
+      padding: var(--space-6);
+      background-color: var(--bg-solid);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .cancel-qty-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin: var(--space-2) 0 var(--space-4);
+    }
+
+    .qty-choice-btn {
+      min-height: 40px;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-strong);
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .qty-choice-btn[aria-pressed="true"] {
+      border-color: #dc2626;
+      background-color: rgba(220, 38, 38, 0.14);
+      color: #dc2626;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+    }
+
+    [data-theme="dark"] .qty-choice-btn[aria-pressed="true"] {
+      color: #fca5a5;
+    }
+
+    .cancel-seat-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .cancel-seat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.8rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-subtle);
+      font-size: var(--fs-sm);
+      cursor: pointer;
+    }
+
+    .cancel-seat-item.is-checked {
+      border-color: #dc2626;
+      background-color: rgba(220, 38, 38, 0.09);
+    }
+
+    .refund-preview-box {
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      background-color: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      margin-bottom: var(--space-5);
+    }
+
+    .refund-popup-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: var(--space-3);
+      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.35);
+    }
+
+    .refund-notice-highlight {
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      background-color: var(--success-bg);
+      border: 1.5px solid var(--success-border);
+      color: var(--success-ink);
+      font-size: var(--fs-md);
+      font-weight: 700;
+      line-height: 1.45;
+      margin: var(--space-3) 0 var(--space-4);
+    }
+
+    /* Checkout Payment Method Selector (Google Pay & Pay via UPI ID) */
+    .payment-section {
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border-default);
+    }
+
+    .payment-options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      margin-top: var(--space-2);
+    }
+
+    @media (min-width: 540px) {
+      .payment-options-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .payment-choice-card {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-strong);
+      background-color: var(--bg-solid);
+      cursor: pointer;
+      min-height: 56px;
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .payment-choice-card:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .payment-choice-card.is-selected {
+      border-color: var(--accent-primary);
+      background-color: var(--accent-soft);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .payment-radio {
+      margin-top: 0.2rem;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .payment-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: var(--fs-sm);
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .gpay-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.45rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      background: linear-gradient(90deg, #4285f4, #0f9d58);
+      color: #ffffff;
+    }
+
+    .upi-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.45rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      background-color: var(--accent-soft);
+      color: var(--accent-ink);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+    }
+
+    .payment-subbox {
+      margin-top: var(--space-3);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-default);
+    }
+
+    .toast-stack {
+      position: fixed;
+      bottom: var(--space-4);
+      right: var(--space-4);
+      z-index: 70;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      max-width: 380px;
+      width: calc(100% - 2rem);
+    }
+
+    .toast-msg {
+      background-color: var(--bg-solid);
+      border: 1px solid var(--border-strong);
+      border-left: 4px solid var(--accent-primary);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      padding: 0.8rem 1rem;
+      font-size: var(--fs-sm);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .toast-msg.warn { border-left-color: #d97706; }
+    .toast-msg.danger { border-left-color: #dc2626; }
+    .toast-msg.success { border-left-color: #059669; }
+  </style>
+</head>
+<body>
+  <div class="aurora-backdrop" aria-hidden="true"></div>
+  <div id="live-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ======================================================================
+       HEADER & NAVIGATION
+       ====================================================================== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <button type="button" class="brand-btn" id="brand-home-btn" aria-label="Get your SEAT Home">
+        <span class="gs-brand-mark" aria-hidden="true">GS</span>
+        <span class="gs-wordmark"><span>Get your</span><span class="seat-caps">SEAT</span></span>
+      </button>
+
+      <nav class="nav-bar" aria-label="Main workspace navigation">
+        <button type="button" class="nav-btn" data-nav="events" id="nav-events">Events</button>
+        <button type="button" class="nav-btn" data-nav="seatmap" id="nav-seatmap">Seat Map &amp; AI</button>
+        <button type="button" class="nav-btn" data-nav="checkout" id="nav-checkout">Checkout</button>
+        <button type="button" class="nav-btn" data-nav="success" id="nav-success">Booking Pass</button>
+        <button type="button" class="nav-btn" data-nav="bookings" id="nav-bookings">My Bookings</button>
+      </nav>
+
+      <div class="header-actions">
+        <div class="profile-chip hidden" id="header-profile-badge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span id="header-student-name">Mridul Pathania</span>
+        </div>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="theme-toggle-btn" aria-label="Toggle light or dark mode">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-label">Dark</span>
+        </button>
+
+        <button type="button" class="btn btn-secondary btn-sm hidden" id="sign-out-btn">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       MAIN APPLICATION WORKSPACE
+       ====================================================================== -->
+  <main class="page-main" id="app-main">
+
+    <!-- 1. DYNAMIC SPLIT SIGN-IN LANDING VIEW -->
+    <section id="view-login" aria-labelledby="signin-heading">
+      <div class="signin-hero-grid">
+        <div class="glass-card showcase-panel">
+          <div class="brand-hero-row">
+            <span class="gs-brand-mark gs-brand-mark--lg" aria-hidden="true">GS</span>
+            <span class="demand-pill">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              High-Demand Booking • Live Seat Locks Active
+            </span>
+          </div>
+
+          <h1 class="hero-display-title" id="signin-heading">Welcome to GET YOUR SEAT</h1>
+
+          <div class="welcome-greeting-box" role="region" aria-label="Welcome message for Mridul Pathania">
+            <div style="font-size:var(--fs-md);font-weight:800;color:var(--accent-ink);">
+              Welcome, Mridul Pathania!
+            </div>
+            <p style="margin:0.3rem 0 0;font-size:var(--fs-sm);color:var(--text-secondary);">
+              Your booking portal is ready with instant seat selection, automatic conflict recovery with nearest-seat suggestions, and an AI Seat Assistant that recommends seats without ever booking automatically.
+            </p>
+          </div>
+
+          <div class="mini-arena-box" aria-label="Live stadium seat lock preview">
+            <div class="mini-stage-bar"></div>
+            <div class="mini-seat-row">
+              <span class="mini-seat-cell seat-blocked">A1</span>
+              <span class="mini-seat-cell seat-available">A2</span>
+              <span class="mini-seat-cell seat-selected">A3</span>
+              <span class="mini-seat-cell seat-selected">A4</span>
+              <span class="mini-seat-cell seat-available lock-anim">A5</span>
+              <span class="mini-seat-cell seat-held">A6</span>
+              <span class="mini-seat-cell seat-booked">A7</span>
+              <span class="mini-seat-cell seat-available">A8</span>
+            </div>
+            <div class="mini-seat-row" style="margin-bottom:0;">
+              <span class="mini-seat-cell seat-available">B1</span>
+              <span class="mini-seat-cell seat-available lock-anim">B2</span>
+              <span class="mini-seat-cell seat-available">B3</span>
+              <span class="mini-seat-cell seat-booked">B4</span>
+              <span class="mini-seat-cell seat-held">B5</span>
+              <span class="mini-seat-cell seat-available">B6</span>
+              <span class="mini-seat-cell seat-available">B7</span>
+              <span class="mini-seat-cell seat-available">B8</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:0.5rem;font-size:var(--fs-xs);color:var(--text-muted);">
+              <span>⚡ Animated seats illustrate live hold/selection shifts</span>
+              <span>Max 4 seats / booking</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card signin-card">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:var(--space-4);">
+            <span class="gs-brand-mark" aria-hidden="true">GS</span>
+            <div>
+              <div class="gs-wordmark" style="font-size:var(--fs-md);"><span>Get your</span><span class="seat-caps">SEAT</span></div>
+              <div style="font-size:var(--fs-xs);color:var(--text-muted);">Member Sign In • Mridul Pathania</div>
+            </div>
+          </div>
+
+          <div id="login-error-banner" class="banner banner-danger hidden" role="alert">
+            <span>Invalid email or password! Please check your credentials and try again.</span>
+          </div>
+
+          <form id="login-form" novalidate>
+            <div class="form-group">
+              <label for="login-email" class="form-label">Email Address</label>
+              <input
+                type="email"
+                id="login-email"
+                class="form-input"
+                value="mridul.pathania@getyourseat.edu.in"
+                autocomplete="email"
+                required
+              />
+              <span class="field-error" id="login-email-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="login-password" class="form-label">Password</label>
+              <div class="password-input-wrap">
+                <input
+                  type="password"
+                  id="login-password"
+                  class="form-input"
+                  value="getseat2026"
+                  autocomplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="password-toggle-btn"
+                  id="toggle-password-btn"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                >
+                  Show
+                </button>
+              </div>
+              <span class="field-error" id="login-password-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;" id="login-submit-btn">
+              <span id="login-submit-text">Sign In to Get your SEAT</span>
+            </button>
+          </form>
+
+          <div style="margin-top:var(--space-4);font-size:var(--fs-xs);color:var(--text-muted);text-align:center;">
+            Try <code>wrong@test.com</code> or password <code>wrongpass</code> to test error handling.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. EVENTS LIST VIEW -->
+    <section id="view-events" class="hidden" aria-labelledby="events-heading">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" id="events-heading">Upcoming Events</h1>
+          <p class="page-subtitle">Signed in as <strong id="events-student-name">Mridul Pathania</strong> • Live seat counts &amp; AI seat suggestions</p>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" id="toggle-skeleton-btn">Preview Skeleton Loading</button>
+      </div>
+
+      <div class="filter-toolbar">
+        <div style="flex:1 1 250px;max-width:400px;">
+          <label for="event-search-input" class="sr-only">Search events</label>
+          <input type="search" id="event-search-input" class="form-input" placeholder="Search events or venues..." />
+        </div>
+
+        <div class="pill-group" role="group" aria-label="Filter events by month">
+          <button type="button" class="filter-pill" data-month="all" aria-pressed="true">All Dates</button>
+          <button type="button" class="filter-pill" data-month="nov" aria-pressed="false">November</button>
+          <button type="button" class="filter-pill" data-month="dec" aria-pressed="false">December</button>
+        </div>
+      </div>
+
+      <div id="events-grid" class="events-grid"></div>
+    </section>
+
+    <!-- 3. SEAT MAP & AI ASSISTANT VIEW -->
+    <section id="view-seatmap" class="hidden" aria-labelledby="seatmap-heading">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-4);">
+        <button type="button" class="btn btn-secondary btn-sm" id="back-to-events-btn">← Back to Events</button>
+        <span style="font-size:var(--fs-xs);color:var(--text-secondary);">
+          ⌨️ Arrow keys move focus • Space/Enter toggles seat • Hover blocked seat for unlock timer
+        </span>
+      </div>
+
+      <div class="page-header" style="margin-bottom:var(--space-4);">
+        <div>
+          <h1 class="page-title" id="seatmap-heading">Event Title</h1>
+          <p class="page-subtitle" id="seatmap-subtitle">Date • Venue</p>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" id="simulate-conflict-now-btn">Simulate Seat Steal</button>
+      </div>
+
+      <div id="seatmap-alert" class="banner banner-warn hidden" role="alert">
+        <div id="seatmap-alert-text"></div>
+        <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;">
+          <button type="button" class="btn btn-primary btn-sm hidden" id="seatmap-alt-btn">Select Nearby Seat</button>
+          <button type="button" class="btn btn-secondary btn-sm hidden" id="seatmap-retry-btn">Retry</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="seatmap-dismiss-btn">Dismiss</button>
+        </div>
+      </div>
+
+      <div class="seatmap-grid-layout">
+        <div class="glass-card seatmap-panel">
+          <div class="stage-arc">Stage</div>
+
+          <div class="legend-bar" aria-label="Seat status legend">
+            <span class="legend-entry"><span class="legend-box seat-available" aria-hidden="true">✓</span> Available</span>
+            <span class="legend-entry"><span class="legend-box seat-selected" aria-hidden="true">★</span> Selected</span>
+            <span class="legend-entry"><span class="legend-box seat-held" aria-hidden="true">⏳</span> Held by Others</span>
+            <span class="legend-entry"><span class="legend-box seat-booked" aria-hidden="true">✕</span> Booked</span>
+            <span class="legend-entry"><span class="legend-box seat-blocked" aria-hidden="true">⊘</span> Blocked</span>
+          </div>
+
+          <div class="map-controls-bar">
+            <div class="highlighted-pricing-strip" aria-label="Seat pricing tiers">
+              <span>Seat Prices:</span>
+              <span class="price-tier-pill">Rows A–B: ₹450</span>
+              <span class="price-tier-pill">Rows C–D: ₹300</span>
+              <span class="price-tier-pill">Rows E–F: ₹200</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-sm price-toggle-btn is-active" id="toggle-seat-prices-btn" aria-pressed="true">
+                ₹ Price Tags: ON
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="zoom-out-btn" aria-label="Zoom out seat map">−</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="zoom-reset-btn" aria-label="Reset zoom">100%</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="zoom-in-btn" aria-label="Zoom in seat map">+</button>
+            </div>
+          </div>
+
+          <div class="seat-viewport" id="seat-viewport">
+            <div class="seat-board" id="seat-board" role="grid" aria-label="Auditorium seat map"></div>
+          </div>
+
+          <div id="blocked-hover-popover" class="blocked-hover-popover" role="tooltip" aria-hidden="true">
+            <div id="blocked-popover-seat" style="font-weight:800;font-family:var(--font-mono);">Seat A1 • Blocked</div>
+            <div>Opens in <span id="blocked-popover-timer" class="blocked-hover-clock">01:45</span></div>
+            <div id="blocked-popover-price" style="font-size:0.68rem;color:#cbd5e1;">Tier price: ₹450</div>
+          </div>
+
+          <div class="selection-bar">
+            <div>
+              <div style="font-size:var(--fs-sm);color:var(--text-secondary);">
+                Selected (<strong id="selected-count-label">0</strong>/4 max):
+              </div>
+              <div id="selected-chips-box" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.35rem;">
+                <span style="font-size:var(--fs-sm);color:var(--text-muted);">Tap available seats to select</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:var(--space-4);">
+              <div style="text-align:right;">
+                <div style="font-size:var(--fs-xs);color:var(--text-muted);">Subtotal</div>
+                <div style="font-size:var(--fs-xl);font-weight:800;font-family:var(--font-mono);" id="seat-subtotal-label">₹0</div>
+              </div>
+              <button type="button" class="btn btn-primary" id="hold-seats-btn" disabled>Hold Seats (5:00)</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="glass-card ai-sidebar" aria-labelledby="ai-panel-heading">
+          <div class="ai-header">
+            <h2 id="ai-panel-heading" style="margin:0;font-size:var(--fs-lg);font-weight:800;">✨ AI Seat Assistant</h2>
+            <span class="ai-badge">AI-Generated</span>
+          </div>
+
+          <p class="page-subtitle" style="margin-bottom:var(--space-3);">
+            Recommends seats from live availability and <strong>never books automatically</strong>. Click <strong>Use These Seats</strong> to apply.
+          </p>
+
+          <div class="chip-row" aria-label="Quick prompt chips">
+            <button type="button" class="chip-btn" data-ai-prompt="2 together under ₹350">2 together under ₹350</button>
+            <button type="button" class="chip-btn" data-ai-prompt="Cheapest aisle seats">Cheapest aisle seats</button>
+            <button type="button" class="chip-btn" data-ai-prompt="Front row best view">Front row best view</button>
+            <button type="button" class="chip-btn" data-ai-prompt="4 seats same row">4 seats same row</button>
+          </div>
+
+          <form id="ai-form">
+            <label for="ai-input" class="sr-only">Describe seat preferences</label>
+            <div style="display:flex;gap:0.4rem;">
+              <input
+                type="text"
+                id="ai-input"
+                class="form-input"
+                placeholder="e.g. 2 seats together under ₹350 or stage ke paas"
+                autocomplete="off"
+              />
+              <button type="submit" class="btn btn-ai" id="ai-ask-btn">Ask</button>
+              <button type="button" class="btn btn-danger hidden" id="ai-stop-btn">Stop</button>
+            </div>
+          </form>
+
+          <div id="ai-progress-text" aria-live="polite" style="margin-top:0.6rem;font-size:var(--fs-xs);color:var(--text-secondary);"></div>
+
+          <div id="ai-error-banner" class="banner banner-danger hidden" role="alert" style="margin-top:0.6rem;margin-bottom:0;">
+            <span id="ai-error-msg">AI assistant timed out or failed. Manual selection remains active.</span>
+            <button type="button" class="btn btn-secondary btn-sm" id="ai-retry-btn">Retry</button>
+          </div>
+
+          <div id="ai-result-card" class="ai-result-card hidden" aria-live="polite">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <strong style="font-size:var(--fs-xs);color:var(--ai-ink);">AI-Generated Suggestion</strong>
+              <span style="font-size:0.7rem;color:var(--text-muted);">No auto-booking</span>
+            </div>
+            <div id="ai-suggested-pills" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0;"></div>
+            <p id="ai-reason-text" style="margin:0 0 var(--space-3);font-size:var(--fs-xs);color:var(--text-secondary);"></p>
+            <div style="display:flex;gap:0.5rem;">
+              <button type="button" class="btn btn-primary btn-sm" style="flex:1;" id="ai-use-btn">Use These Seats</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="ai-clear-btn">Clear</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 4. CHECKOUT VIEW (5-MINUTE COUNTDOWN TIMER + GOOGLE PAY / UPI ID) -->
+    <section id="view-checkout" class="narrow-wrap hidden" aria-labelledby="checkout-heading">
+      <div class="timer-banner" id="checkout-timer-banner" role="timer" aria-live="off">
+        <div>
+          <strong style="display:block;font-size:var(--fs-sm);">5-Minute Hold Active for Mridul Pathania</strong>
+          <span style="font-size:var(--fs-xs);color:var(--text-secondary);" id="checkout-timer-note">
+            Confirm booking before timer reaches 00:00 or seats return to the map.
+          </span>
+        </div>
+        <div class="timer-clock" id="checkout-timer-clock">05:00</div>
+      </div>
+
+      <div id="checkout-error-banner" class="banner banner-danger hidden" role="alert">
+        <span>Transient error confirming hold. Your hold timer is still running.</span>
+        <button type="button" class="btn btn-secondary btn-sm" id="checkout-retry-btn">Retry</button>
+      </div>
+
+      <div class="glass-card" style="padding:var(--space-6);">
+        <h1 class="page-title" id="checkout-heading" style="font-size:var(--fs-xl);">Checkout Summary</h1>
+        <p class="page-subtitle" id="checkout-event-meta" style="margin-bottom:var(--space-5);"></p>
+
+        <div id="checkout-line-items"></div>
+
+        <div class="summary-row">
+          <span>Booking Fee</span>
+          <span>₹25</span>
+        </div>
+        <div class="summary-total">
+          <span>Total Amount</span>
+          <span id="checkout-total-label">₹0</span>
+        </div>
+
+        <div class="payment-section" role="region" aria-label="Select payment method">
+          <div class="form-label" style="margin-bottom:0.2rem;">Payment Method</div>
+          <p class="page-subtitle" style="margin:0 0 var(--space-2);font-size:var(--fs-xs);">
+            Choose how you want to pay for your held seats before confirming.
+          </p>
+
+          <div class="payment-options-grid" role="radiogroup" aria-label="Payment method options">
+            <label class="payment-choice-card is-selected" id="pay-card-gpay" for="pay-method-gpay">
+              <input
+                type="radio"
+                name="checkoutPaymentMethod"
+                id="pay-method-gpay"
+                value="gpay"
+                class="payment-radio"
+                checked
+              />
+              <div>
+                <div class="payment-title-row">
+                  <span>Google Pay</span>
+                  <span class="gpay-badge">GPay</span>
+                </div>
+                <div style="font-size:var(--fs-xs);color:var(--text-secondary);margin-top:0.2rem;">
+                  Instant UPI intent &amp; linked bank handle
+                </div>
+              </div>
+            </label>
+
+            <label class="payment-choice-card" id="pay-card-upi" for="pay-method-upi">
+              <input
+                type="radio"
+                name="checkoutPaymentMethod"
+                id="pay-method-upi"
+                value="upi"
+                class="payment-radio"
+              />
+              <div>
+                <div class="payment-title-row">
+                  <span>Pay via UPI ID</span>
+                  <span class="upi-badge">UPI ID</span>
+                </div>
+                <div style="font-size:var(--fs-xs);color:var(--text-secondary);margin-top:0.2rem;">
+                  Enter any valid VPA (e.g. mridul@okicici)
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div class="payment-subbox" id="gpay-details-panel">
+            <label for="gpay-handle-select" class="form-label" style="font-size:var(--fs-xs);">
+              Linked Google Pay Account
+            </label>
+            <select id="gpay-handle-select" class="form-input" style="min-height:40px;font-size:var(--fs-sm);">
+              <option value="mridul.pathania@okaxis">mridul.pathania@okaxis (Axis Bank •••• 4821)</option>
+              <option value="mridul.gpay@okicici">mridul.gpay@okicici (ICICI Bank •••• 9014)</option>
+              <option value="google-pay-intent">Approve via Google Pay Mobile App</option>
+            </select>
+            <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:0.4rem;">
+              A payment request will be sent to Google Pay upon clicking Confirm Booking.
+            </div>
+          </div>
+
+          <div class="payment-subbox hidden" id="upi-details-panel">
+            <label for="upi-id-input" class="form-label" style="font-size:var(--fs-xs);">
+              Enter UPI ID (VPA)
+            </label>
+            <input
+              type="text"
+              id="upi-id-input"
+              class="form-input"
+              placeholder="e.g. mridul.pathania@okhdfcbank"
+              autocomplete="off"
+              inputmode="email"
+            />
+            <span class="field-error" id="upi-id-error"></span>
+            <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:0.25rem;">
+              Format: <code>username@bankhandle</code> (e.g. <code>@okicici</code>, <code>@ybl</code>, <code>@paytm</code>).
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--space-3);margin-top:var(--space-6);flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary" id="checkout-cancel-btn" style="flex:1;">Back / Cancel Hold</button>
+          <button type="button" class="btn btn-primary" id="checkout-confirm-btn" style="flex:2;">Confirm Booking</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. BOOKING CONFIRMED PASS VIEW (WITH SCAN ME QR GRAPHIC & TICKET PHOTO) -->
+    <section id="view-success" class="narrow-wrap hidden" aria-labelledby="pass-heading">
+      <div style="text-align:center;margin-bottom:var(--space-6);">
+        <h1 class="page-title" id="pass-heading">Booking Confirmed</h1>
+        <p class="page-subtitle">Digital pass issued on <strong>Get your SEAT</strong> for <strong>Mridul Pathania</strong>.</p>
+      </div>
+
+      <div class="glass-card pass-card">
+        <div class="pass-header">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
+            <span style="font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">Get your SEAT Pass</span>
+            <span class="gs-brand-mark" style="width:28px;height:28px;border-radius:8px;font-size:0.75rem;box-shadow:none;" aria-hidden="true">GS</span>
+          </div>
+          <h2 id="pass-event-title" style="margin:0.45rem 0 0.25rem;font-size:var(--fs-xl);">Event Title</h2>
+          <div id="pass-event-venue" style="font-size:var(--fs-xs);opacity:0.92;">Date • Venue</div>
+        </div>
+        <div class="pass-divider"></div>
+        <div class="pass-body">
+          <div>
+            <div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;">Holder</div>
+            <div style="font-size:var(--fs-sm);font-weight:700;margin-bottom:0.4rem;">Mridul Pathania</div>
+            <div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;">Seats</div>
+            <div id="pass-seats-value" style="font-family:var(--font-mono);font-size:var(--fs-lg);font-weight:800;margin-bottom:0.4rem;">A3, A4</div>
+            <div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;">Booking Ref &amp; Payment</div>
+            <div id="pass-ref-value" style="font-family:var(--font-mono);font-size:var(--fs-sm);font-weight:700;">GS-9001</div>
+            <div id="pass-payment-badge" class="token-chip" style="margin-top:0.4rem;">Google Pay</div>
+          </div>
+
+          <div class="scan-ticket-photo-box" aria-label="SCAN ME pass QR code">
+            <div id="scan-me-svg-wrap" style="display:flex;flex-direction:column;align-items:center;gap:0.25rem;width:124px;color:#0f172a;">
+              <div style="font-family:var(--font-sans);font-size:0.84rem;font-weight:800;letter-spacing:0.12em;line-height:1;">SCAN ME</div>
+              <svg width="22" height="13" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 2L12 7.5L21 2" stroke="#0f172a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 7L12 12.5L21 7" stroke="#0f172a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg width="104" height="104" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SCAN ME QR code">
+                <rect width="96" height="96" fill="#ffffff"/>
+                <path d="M2 16V6C2 3.79086 3.79086 2 6 2H16" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+                <path d="M80 2H90C92.2091 2 94 3.79086 94 6V16" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+                <path d="M2 80V90C2 92.2091 3.79086 94 6 94H16" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+                <path d="M94 80V90C94 92.2091 92.2091 94 90 94H80" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+                <rect x="11" y="11" width="24" height="24" stroke="#0f172a" stroke-width="4.5"/>
+                <rect x="18" y="18" width="10" height="10" fill="#0f172a"/>
+                <rect x="61" y="11" width="24" height="24" stroke="#0f172a" stroke-width="4.5"/>
+                <rect x="68" y="18" width="10" height="10" fill="#0f172a"/>
+                <rect x="11" y="61" width="24" height="24" stroke="#0f172a" stroke-width="4.5"/>
+                <rect x="18" y="68" width="10" height="10" fill="#0f172a"/>
+                <rect x="41" y="11" width="5" height="5" fill="#0f172a"/>
+                <rect x="46" y="16" width="5" height="10" fill="#0f172a"/>
+                <rect x="41" y="26" width="5" height="9" fill="#0f172a"/>
+                <rect x="51" y="30" width="5" height="5" fill="#0f172a"/>
+                <rect x="11" y="41" width="9" height="5" fill="#0f172a"/>
+                <rect x="25" y="41" width="5" height="9" fill="#0f172a"/>
+                <rect x="35" y="46" width="11" height="5" fill="#0f172a"/>
+                <rect x="51" y="41" width="5" height="10" fill="#0f172a"/>
+                <rect x="61" y="46" width="10" height="5" fill="#0f172a"/>
+                <rect x="76" y="41" width="9" height="5" fill="#0f172a"/>
+                <rect x="41" y="56" width="5" height="10" fill="#0f172a"/>
+                <rect x="51" y="61" width="5" height="5" fill="#0f172a"/>
+                <rect x="61" y="61" width="14" height="14" stroke="#0f172a" stroke-width="3"/>
+                <rect x="66" y="66" width="4" height="4" fill="#0f172a"/>
+                <rect x="41" y="71" width="10" height="5" fill="#0f172a"/>
+                <rect x="46" y="80" width="9" height="5" fill="#0f172a"/>
+                <rect x="61" y="80" width="5" height="5" fill="#0f172a"/>
+                <rect x="75" y="80" width="10" height="5" fill="#0f172a"/>
+              </svg>
+            </div>
+            <img
+              id="scan-ticket-photo"
+              src="https://placehold.co/248x340/ffffff/0f172a?text=SCAN+ME"
+              alt="Custom uploaded SCAN ME QR ticket pass"
+              class="scan-ticket-img hidden"
+              onerror="this.onerror=null;this.src='https://placehold.co/248x340/ffffff/0f172a?text=SCAN+ME';"
+            />
+            <label for="ticket-photo-upload" style="font-size:0.65rem;font-weight:700;color:#4f46e5;text-decoration:underline;cursor:pointer;">
+              Load Ticket.png File
+            </label>
+            <input type="file" id="ticket-photo-upload" accept="image/*" class="sr-only" />
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:var(--space-3);margin-top:var(--space-6);flex-wrap:wrap;">
+        <button type="button" class="btn btn-secondary" id="download-ics-btn" style="flex:1;">Add to Calendar (.ics)</button>
+        <button type="button" class="btn btn-primary" data-nav="bookings" style="flex:1;">View My Bookings</button>
+      </div>
+    </section>
+
+    <!-- 6. MY BOOKINGS VIEW (WITH SEAT-QUANTITY CANCELLATION & REFUND POP-UP) -->
+    <section id="view-bookings" class="narrow-wrap hidden" aria-labelledby="bookings-heading">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" id="bookings-heading">My Bookings</h1>
+          <p class="page-subtitle">Manage reservations for <strong>Mridul Pathania</strong> on <strong>Get your SEAT</strong>.</p>
+        </div>
+      </div>
+
+      <div class="tab-switch" role="tablist" aria-label="Upcoming and Past bookings">
+        <button type="button" class="tab-btn" role="tab" id="tab-upcoming" aria-selected="true" data-tab="upcoming">Upcoming</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-past" aria-selected="false" data-tab="past">Past</button>
+      </div>
+
+      <div id="bookings-list"></div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       CANCEL BOOKING DIALOG (SELECT HOW MANY SEATS TO CANCEL)
+       ====================================================================== -->
+  <div id="cancel-modal" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="cancel-modal-title">
+    <div class="glass-card dialog-card">
+      <h2 id="cancel-modal-title" style="margin:0 0 0.35rem;font-size:var(--fs-lg);font-weight:800;">Cancel Booking</h2>
+      <p id="cancel-modal-desc" style="margin:0 0 var(--space-4);font-size:var(--fs-sm);color:var(--text-secondary);"></p>
+
+      <div class="form-label" style="font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.04em;color:var(--text-muted);">
+        How many seats do you want to cancel?
+      </div>
+      <div id="cancel-qty-selector" class="cancel-qty-pills" role="group" aria-label="Select number of seats to cancel"></div>
+
+      <div class="form-label" style="font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.04em;color:var(--text-muted);margin-bottom:0.4rem;">
+        Seats selected for cancellation
+      </div>
+      <div id="cancel-seat-checklist" class="cancel-seat-checklist"></div>
+
+      <div class="refund-preview-box">
+        <span>Estimated Refund (<span id="cancel-seat-count-summary">1 seat</span>):</span>
+        <span id="cancel-refund-amount-preview" style="font-family:var(--font-mono);font-size:var(--fs-md);">₹0</span>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:var(--space-3);flex-wrap:wrap;">
+        <button type="button" class="btn btn-secondary" id="cancel-modal-no">Keep Booking</button>
+        <button type="button" class="btn btn-danger" id="cancel-modal-yes">Confirm Cancellation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       REFUND CONFIRMATION POP-UP MODAL
+       ====================================================================== -->
+  <div id="refund-popup-modal" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="refund-popup-title">
+    <div class="glass-card dialog-card" style="text-align:center;">
+      <div class="refund-popup-icon" aria-hidden="true">✓</div>
+      <h2 id="refund-popup-title" style="margin:0 0 0.3rem;font-size:var(--fs-xl);font-weight:800;">Booking Cancelled</h2>
+      <div id="refund-popup-details" style="font-size:var(--fs-xs);font-family:var(--font-mono);font-weight:700;color:var(--accent-ink);"></div>
+
+      <div class="refund-notice-highlight" role="status" aria-live="assertive">
+        Your refunded money will be credited to your account with-in 2-3 working days
+      </div>
+
+      <button type="button" class="btn btn-primary" id="refund-popup-ok-btn" style="width:100%;">
+        OK, Got It
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST STACK -->
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const ROWS = ['A', 'B', 'C', 'D', 'E', 'F'];
+      const COLS = [1, 2, 3, 4, 5, 6, 7, 8];
+
+      // Distinct unlock timers (in seconds) for blocked seats across events
+      const BLOCKED_TIMER_PROFILES = [
+        { 'A1': 105, 'A8': 200, 'C2': 52,  'D5': 245, 'E7': 135 },
+        { 'A1': 78,  'A8': 164, 'C2': 118, 'D5': 92,  'B6': 210 },
+        { 'A1': 142, 'A8': 64,  'C2': 195, 'D5': 128, 'F3': 230 },
+        { 'A1': 88,  'A8': 224, 'C2': 74,  'D5': 176, 'C6': 155 }
+      ];
+
+      function formatMMSS(totalSec) {
+        const safe = Math.max(0, Math.floor(totalSec));
+        const m = Math.floor(safe / 60);
+        const s = safe % 60;
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      }
+
+      function getSeatPriceById(seatId) {
+        const rowLetter = (seatId || 'E')[0].toUpperCase();
+        const rIdx = ROWS.indexOf(rowLetter);
+        if (rIdx >= 0 && rIdx < 2) return 450;
+        if (rIdx >= 2 && rIdx < 4) return 300;
+        return 200;
+      }
+
+      function buildSeats(eventIndex) {
+        const profile = BLOCKED_TIMER_PROFILES[eventIndex % BLOCKED_TIMER_PROFILES.length];
+        const seats = [];
+        ROWS.forEach((row, rIdx) => {
+          const price = rIdx < 2 ? 450 : rIdx < 4 ? 300 : 200;
+          const zone = rIdx < 2 ? 'Front Stage' : rIdx < 4 ? 'Middle Tier' : 'Rear Tier';
+          COLS.forEach((col, cIdx) => {
+            const id = `${row}${col}`;
+            const hash = (rIdx * 5 + cIdx * 3 + eventIndex * 7) % 19;
+            let status = 'available';
+            let blockedRemainingSec = null;
+
+            if (Object.prototype.hasOwnProperty.call(profile, id)) {
+              status = 'blocked';
+              blockedRemainingSec = profile[id];
+            } else if (hash === 2 || hash === 10) {
+              status = 'booked';
+            } else if (hash === 6 || hash === 14) {
+              status = 'held';
+            }
+
+            seats.push({
+              id,
+              row,
+              col,
+              rIdx,
+              cIdx,
+              price,
+              zone,
+              isAisle: col === 1 || col === 4 || col === 5 || col === 8,
+              status,
+              blockedRemainingSec
+            });
+          });
+        });
+        return seats;
+      }
+
+      const EVENTS = [
+        {
+          id: 'evt-1',
+          title: 'PulseFest: Campus Neon Concert',
+          category: 'Concert',
+          month: 'nov',
+          dateText: 'Sat, Nov 28 • 7:30 PM',
+          venue: 'Open-Air Amphitheatre',
+          priceFrom: 200,
+          gradient: 'linear-gradient(135deg, rgba(139, 124, 246, 0.72), rgba(99, 102, 241, 0.76), rgba(15, 23, 42, 0.88))',
+          imageUrl: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=900&q=80',
+          fallbackUrl: 'https://placehold.co/900x450/4f46e5/ffffff?text=PulseFest+Live+Neon+Concert',
+          imageAlt: 'Neon stage lights and cheering crowd at PulseFest live concert',
+          seats: buildSeats(0)
+        },
+        {
+          id: 'evt-2',
+          title: 'TechSummit AI Keynote',
+          category: 'Summit',
+          month: 'nov',
+          dateText: 'Mon, Nov 30 • 10:00 AM',
+          venue: 'Main Auditorium Hall A',
+          priceFrom: 200,
+          gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.72), rgba(79, 70, 229, 0.78), rgba(15, 23, 42, 0.88))',
+          imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=80',
+          fallbackUrl: 'https://placehold.co/900x450/0284c7/ffffff?text=TechSummit+AI+Keynote',
+          imageAlt: 'Keynote speaker on illuminated technology summit auditorium stage',
+          seats: buildSeats(1)
+        },
+        {
+          id: 'evt-3',
+          title: 'India Acoustic Night',
+          category: 'Music',
+          month: 'dec',
+          dateText: 'Thu, Dec 3 • 8:30 PM',
+          venue: 'Student Commons Arena',
+          priceFrom: 200,
+          gradient: 'linear-gradient(135deg, rgba(236, 72, 153, 0.72), rgba(139, 92, 246, 0.76), rgba(15, 23, 42, 0.88))',
+          imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=900&q=80',
+          fallbackUrl: 'https://placehold.co/900x450/db2777/ffffff?text=India+Acoustic+Night',
+          imageAlt: 'Acoustic guitar and warm stage spotlight at India Acoustic Night',
+          seats: buildSeats(2)
+        },
+        {
+          id: 'evt-4',
+          title: 'Inter-College Comedy Gala',
+          category: 'Comedy',
+          month: 'dec',
+          dateText: 'Sat, Dec 12 • 6:00 PM',
+          venue: 'Grand Convocation Hall',
+          priceFrom: 200,
+          gradient: 'linear-gradient(135deg, rgba(79, 70, 229, 0.72), rgba(6, 182, 212, 0.76), rgba(15, 23, 42, 0.88))',
+          imageUrl: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=900&q=80',
+          fallbackUrl: 'https://placehold.co/900x450/4338ca/ffffff?text=Inter-College+Comedy+Gala',
+          imageAlt: 'Stand-up comedy microphone under dramatic spotlight on stage',
+          seats: buildSeats(3)
+        }
+      ];
+
+      // Mark pre-booked seats from initial upcoming reservations on evt-1
+      const initialBookedSeatIds = ['F8', 'C3', 'C4'];
+      initialBookedSeatIds.forEach(sid => {
+        const seatObj = EVENTS[0].seats.find(s => s.id === sid);
+        if (seatObj) seatObj.status = 'booked';
+      });
+
+      const state = {
+        user: null,
+        studentName: 'Mridul Pathania',
+        studentEmail: 'mridul.pathania@getyourseat.edu.in',
+        view: 'login',
+        skeleton: false,
+        search: '',
+        month: 'all',
+        activeEventId: 'evt-1',
+        selectedSeats: [],
+        aiHighlighted: [],
+        conflictSeats: [],
+        suggestedSeatId: null,
+        showPriceTags: true,
+        hoveredBlockedSeatId: null,
+        gridFocus: { r: 0, c: 0 },
+        zoom: 1,
+        holdSeconds: 300,
+        holdTimerId: null,
+        pollTimerId: null,
+        blockedTickId: null,
+        aiAbortController: null,
+        bookingsTab: 'upcoming',
+        cancelTargetId: null,
+        cancelSeatIds: [],
+        lastBooking: null,
+        bookings: [
+          {
+            id: 'GS-9117',
+            eventId: 'evt-1',
+            eventTitle: 'PulseFest: Campus Neon Concert',
+            dateText: 'Sat, Nov 28 • 7:30 PM',
+            venue: 'Open-Air Amphitheatre',
+            seats: ['F8'],
+            total: 225,
+            paymentLabel: 'Google Pay (mridul.pathania@okaxis)',
+            status: 'upcoming'
+          },
+          {
+            id: 'GS-8412',
+            eventId: 'evt-1',
+            eventTitle: 'PulseFest: Campus Neon Concert',
+            dateText: 'Sat, Nov 28 • 7:30 PM',
+            venue: 'Open-Air Amphitheatre',
+            seats: ['C3', 'C4'],
+            total: 625,
+            paymentLabel: 'Google Pay (mridul.pathania@okaxis)',
+            status: 'upcoming'
+          },
+          {
+            id: 'GS-5109',
+            eventId: 'evt-past',
+            eventTitle: 'Freshers Tech & Design Mixer',
+            dateText: 'Sep 14 • 5:00 PM',
+            venue: 'Innovation Center',
+            seats: ['D3'],
+            total: 225,
+            paymentLabel: 'UPI ID (mridul@okicici)',
+            status: 'past'
+          }
+        ]
+      };
+
+      /* Mock API helper with realistic delay and occasional transient error */
+      function callMockApi(minMs = 1500, maxMs = 2200) {
+        const delay = minMs + Math.floor(Math.random() * (maxMs - minMs + 1));
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (Math.random() < 0.04) {
+              reject(new Error('Transient network failure'));
+            } else {
+              resolve({ ok: true });
+            }
+          }, delay);
+        });
+      }
+
+      /* Theme initialization & persistence */
+      function initTheme() {
+        try {
+          const saved = localStorage.getItem('getyourseat_theme');
+          const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          applyTheme(saved || (systemDark ? 'dark' : 'light'));
+        } catch {
+          applyTheme('dark');
+        }
+      }
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        try {
+          localStorage.setItem('getyourseat_theme', theme);
+        } catch {
+          // Ignore storage restrictions
+        }
+        document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+        document.getElementById('theme-label').textContent = theme === 'dark' ? 'Light' : 'Dark';
+      }
+
+      document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+        const curr = document.documentElement.getAttribute('data-theme');
+        applyTheme(curr === 'dark' ? 'light' : 'dark');
+      });
+
+      /* Screen-reader live region + non-blocking toast notifications */
+      function announce(text) {
+        const el = document.getElementById('live-announcer');
+        el.textContent = '';
+        setTimeout(() => { el.textContent = text; }, 25);
+      }
+
+      function showToast(message, variant = 'info') {
+        const stack = document.getElementById('toast-stack');
+        const toast = document.createElement('div');
+        toast.className = `toast-msg ${variant}`;
+        toast.setAttribute('role', 'status');
+
+        const msg = document.createElement('span');
+        msg.textContent = message;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.textContent = '✕';
+        closeBtn.setAttribute('aria-label', 'Dismiss toast');
+        closeBtn.style.cssText = 'background:none;border:none;font-weight:700;cursor:pointer;padding:0 0.25rem;';
+        closeBtn.onclick = () => toast.remove();
+
+        toast.append(msg, closeBtn);
+        stack.appendChild(toast);
+        announce(message);
+
+        setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 4800);
+      }
+
+      /* View navigation */
+      const VIEWS = ['login', 'events', 'seatmap', 'checkout', 'success', 'bookings'];
+
+      function navigateTo(nextView) {
+        if (!state.user && nextView !== 'login') {
+          nextView = 'login';
+        }
+        state.view = nextView;
+
+        VIEWS.forEach(v => {
+          const sec = document.getElementById(`view-${v}`);
+          if (sec) sec.classList.toggle('hidden', v !== nextView);
+        });
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+          if (btn.getAttribute('data-nav') === nextView) {
+            btn.setAttribute('aria-current', 'page');
+          } else {
+            btn.removeAttribute('aria-current');
+          }
+        });
+
+        if (nextView === 'seatmap') {
+          startSeatMapTimers();
+          renderSeatMap();
+        } else {
+          stopSeatMapTimers();
+          hideBlockedPopover();
+        }
+
+        if (nextView !== 'checkout') {
+          stopHoldCountdown();
+        }
+
+        if (nextView === 'events') renderEvents();
+        if (nextView === 'bookings') renderBookings();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.querySelectorAll('[data-nav]').forEach(btn => {
+        btn.addEventListener('click', () => navigateTo(btn.getAttribute('data-nav')));
+      });
+
+      document.getElementById('brand-home-btn').addEventListener('click', () => {
+        navigateTo(state.user ? 'events' : 'login');
+      });
+
+      /* 1. Sign-In Form + Show/Hide Password Toggle */
+      const loginPassInput = document.getElementById('login-password');
+      const togglePassBtn = document.getElementById('toggle-password-btn');
+
+      togglePassBtn.addEventListener('click', () => {
+        const isHidden = loginPassInput.type === 'password';
+        loginPassInput.type = isHidden ? 'text' : 'password';
+        togglePassBtn.textContent = isHidden ? 'Hide' : 'Show';
+        togglePassBtn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
+        togglePassBtn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+      });
+
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('login-email');
+        const emailErr = document.getElementById('login-email-error');
+        const passErr = document.getElementById('login-password-error');
+        const errBanner = document.getElementById('login-error-banner');
+        const submitBtn = document.getElementById('login-submit-btn');
+        const submitText = document.getElementById('login-submit-text');
+
+        emailErr.textContent = '';
+        passErr.textContent = '';
+        emailInput.removeAttribute('aria-invalid');
+        loginPassInput.removeAttribute('aria-invalid');
+        errBanner.classList.add('hidden');
+
+        const email = emailInput.value.trim();
+        const pass = loginPassInput.value;
+        let valid = true;
+
+        if (!email || !email.includes('@')) {
+          emailErr.textContent = 'Enter a valid email address.';
+          emailInput.setAttribute('aria-invalid', 'true');
+          valid = false;
+        }
+        if (!pass || pass.length < 6) {
+          passErr.textContent = 'Password must be at least 6 characters.';
+          loginPassInput.setAttribute('aria-invalid', 'true');
+          valid = false;
+        }
+        if (!valid) return;
+
+        submitBtn.disabled = true;
+        submitText.innerHTML = '<span class="spinner"></span> Signing In...';
+
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitText.textContent = 'Sign In to Get your SEAT';
+
+          if (email.toLowerCase() === 'wrong@test.com' || pass === 'wrongpass') {
+            errBanner.classList.remove('hidden');
+            announce('Invalid email or password.');
+            return;
+          }
+
+          state.user = { email, name: 'Mridul Pathania' };
+          state.studentEmail = email;
+          state.studentName = 'Mridul Pathania';
+
+          document.getElementById('header-profile-badge').classList.remove('hidden');
+          document.getElementById('sign-out-btn').classList.remove('hidden');
+          document.getElementById('header-student-name').textContent = state.studentName;
+          document.getElementById('events-student-name').textContent = state.studentName;
+
+          showToast('Welcome to Get your SEAT, Mridul Pathania!', 'success');
+          navigateTo('events');
+        }, 650);
+      });
+
+      document.getElementById('sign-out-btn').addEventListener('click', () => {
+        state.user = null;
+        state.selectedSeats = [];
+        document.getElementById('header-profile-badge').classList.add('hidden');
+        document.getElementById('sign-out-btn').classList.add('hidden');
+        navigateTo('login');
+      });
+
+      /* 2. Events List */
+      function renderEvents() {
+        const grid = document.getElementById('events-grid');
+        grid.innerHTML = '';
+
+        if (state.skeleton) {
+          for (let i = 0; i < 4; i++) {
+            const card = document.createElement('div');
+            card.className = 'glass-card event-card';
+            card.innerHTML = `
+              <div class="skeleton-box" style="height:148px;border-radius:0;"></div>
+              <div class="event-content">
+                <div>
+                  <div class="skeleton-box" style="height:20px;width:72%;margin-bottom:8px;"></div>
+                  <div class="skeleton-box" style="height:14px;width:54%;margin-bottom:6px;"></div>
+                  <div class="skeleton-box" style="height:14px;width:44%;"></div>
+                </div>
+                <div class="event-footer">
+                  <div class="skeleton-box" style="height:22px;width:64px;"></div>
+                  <div class="skeleton-box" style="height:38px;width:110px;"></div>
+                </div>
+              </div>
+            `;
+            grid.appendChild(card);
+          }
+          return;
+        }
+
+        const query = state.search.toLowerCase();
+        const filtered = EVENTS.filter(ev => {
+          const matchesQuery = ev.title.toLowerCase().includes(query) || ev.venue.toLowerCase().includes(query);
+          const matchesMonth = state.month === 'all' || ev.month === state.month;
+          return matchesQuery && matchesMonth;
+        });
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div class="glass-card" style="grid-column:1/-1;padding:var(--space-8);text-align:center;">
+              <h2 style="margin:0 0 0.4rem;">No matching events</h2>
+              <p class="page-subtitle" style="margin-bottom:var(--space-4);">Try another keyword or switch date filter pills.</p>
+              <button type="button" class="btn btn-secondary" id="reset-events-filter">Reset Filters</button>
+            </div>
+          `;
+          document.getElementById('reset-events-filter').onclick = () => {
+            state.search = '';
+            state.month = 'all';
+            document.getElementById('event-search-input').value = '';
+            document.querySelectorAll('.filter-pill').forEach(p => p.setAttribute('aria-pressed', p.dataset.month === 'all'));
+            renderEvents();
+          };
+          return;
+        }
+
+        filtered.forEach(ev => {
+          const availableCount = ev.seats.filter(s => s.status === 'available').length;
+          const card = document.createElement('article');
+          card.className = 'glass-card event-card';
+          card.innerHTML = `
+            <div class="event-banner" style="background:${ev.gradient};">
+              <img
+                src="${ev.imageUrl}"
+                alt="${ev.imageAlt}"
+                class="event-banner-img"
+                loading="lazy"
+                onerror="this.onerror=null;this.src='${ev.fallbackUrl}';"
+              />
+              <div class="event-banner-overlay" style="background:${ev.gradient};"></div>
+              <div class="banner-top">
+                <span class="cat-tag">${ev.category}</span>
+                <span class="left-tag">${availableCount} open</span>
+              </div>
+              <h2 style="margin:0;font-size:var(--fs-lg);font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,0.55);">${ev.title}</h2>
+            </div>
+            <div class="event-content">
+              <div style="font-size:var(--fs-sm);color:var(--text-secondary);">
+                <div>📅 ${ev.dateText}</div>
+                <div>📍 ${ev.venue}</div>
+              </div>
+              <div class="event-footer">
+                <div>
+                  <div style="font-size:0.7rem;color:var(--text-muted);">From</div>
+                  <strong style="font-size:var(--fs-lg);font-family:var(--font-mono);">₹${ev.priceFrom}</strong>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" data-select-event="${ev.id}">Select Seats</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        grid.querySelectorAll('[data-select-event]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.activeEventId = btn.getAttribute('data-select-event');
+            state.selectedSeats = [];
+            state.aiHighlighted = [];
+            state.conflictSeats = [];
+            hideSeatmapAlert();
+            document.getElementById('ai-result-card').classList.add('hidden');
+            navigateTo('seatmap');
+          });
+        });
+      }
+
+      document.getElementById('event-search-input').addEventListener('input', (e) => {
+        state.search = e.target.value;
+        renderEvents();
+      });
+
+      document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          state.month = pill.getAttribute('data-month');
+          document.querySelectorAll('.filter-pill').forEach(p => p.setAttribute('aria-pressed', p === pill ? 'true' : 'false'));
+          renderEvents();
+        });
+      });
+
+      document.getElementById('toggle-skeleton-btn').addEventListener('click', () => {
+        state.skeleton = !state.skeleton;
+        renderEvents();
+      });
+
+      document.getElementById('back-to-events-btn').addEventListener('click', () => navigateTo('events'));
+
+      /* 3. Seat Map, Highlighted Prices, Hover-Only Blocked Seat Timers & Conflict Recovery */
+      function getActiveEvent() {
+        return EVENTS.find(e => e.id === state.activeEventId) || EVENTS[0];
+      }
+
+      function findNearestAvailable(lostSeatId, seats) {
+        const lost = seats.find(s => s.id === lostSeatId);
+        const candidates = seats.filter(s => s.status === 'available' && !state.selectedSeats.includes(s.id));
+        if (candidates.length === 0) return null;
+        if (!lost) return candidates[0];
+        candidates.sort((a, b) => {
+          const distA = Math.abs(a.rIdx - lost.rIdx) * 2 + Math.abs(a.cIdx - lost.cIdx);
+          const distB = Math.abs(b.rIdx - lost.rIdx) * 2 + Math.abs(b.cIdx - lost.cIdx);
+          return distA - distB;
+        });
+        return candidates[0];
+      }
+
+      function showSeatmapAlert(html, altSeatId = null, canRetry = false) {
+        const banner = document.getElementById('seatmap-alert');
+        document.getElementById('seatmap-alert-text').innerHTML = html;
+        state.suggestedSeatId = altSeatId;
+
+        const altBtn = document.getElementById('seatmap-alt-btn');
+        if (altSeatId) {
+          altBtn.textContent = `Use Nearby Seat ${altSeatId}`;
+          altBtn.classList.remove('hidden');
+        } else {
+          altBtn.classList.add('hidden');
+        }
+
+        document.getElementById('seatmap-retry-btn').classList.toggle('hidden', !canRetry);
+        banner.classList.remove('hidden');
+      }
+
+      function hideSeatmapAlert() {
+        document.getElementById('seatmap-alert').classList.add('hidden');
+        state.suggestedSeatId = null;
+      }
+
+      document.getElementById('seatmap-dismiss-btn').addEventListener('click', hideSeatmapAlert);
+      document.getElementById('seatmap-alt-btn').addEventListener('click', () => {
+        if (state.suggestedSeatId) {
+          toggleSeatSelection(state.suggestedSeatId);
+          hideSeatmapAlert();
+        }
+      });
+      document.getElementById('seatmap-retry-btn').addEventListener('click', () => {
+        hideSeatmapAlert();
+        handleHoldSeats();
+      });
+
+      const blockedPopover = document.getElementById('blocked-hover-popover');
+
+      function positionAndShowBlockedPopover(seat, targetEl) {
+        if (!seat || seat.status !== 'blocked') {
+          hideBlockedPopover();
+          return;
+        }
+        state.hoveredBlockedSeatId = seat.id;
+        const rect = targetEl.getBoundingClientRect();
+        const centerX = Math.max(105, Math.min(window.innerWidth - 105, rect.left + rect.width / 2));
+        const topY = Math.max(70, rect.top);
+
+        document.getElementById('blocked-popover-seat').textContent = `Seat ${seat.id} • Blocked`;
+        document.getElementById('blocked-popover-timer').textContent = formatMMSS(seat.blockedRemainingSec ?? 90);
+        document.getElementById('blocked-popover-price').textContent = `Seat cost: ₹${seat.price} (${seat.zone})`;
+
+        blockedPopover.style.left = `${centerX}px`;
+        blockedPopover.style.top = `${topY}px`;
+        blockedPopover.classList.add('is-visible');
+        blockedPopover.setAttribute('aria-hidden', 'false');
+      }
+
+      function refreshHoveredBlockedPopoverIfOpen() {
+        if (!state.hoveredBlockedSeatId || state.view !== 'seatmap') return;
+        const ev = getActiveEvent();
+        const seat = ev.seats.find(s => s.id === state.hoveredBlockedSeatId);
+        const el = document.querySelector(`.seat-node[data-seat-id="${state.hoveredBlockedSeatId}"]`);
+        if (!seat || seat.status !== 'blocked' || !el) {
+          hideBlockedPopover();
+          return;
+        }
+        positionAndShowBlockedPopover(seat, el);
+      }
+
+      function hideBlockedPopover() {
+        state.hoveredBlockedSeatId = null;
+        blockedPopover.classList.remove('is-visible');
+        blockedPopover.setAttribute('aria-hidden', 'true');
+      }
+
+      function toggleSeatSelection(seatId) {
+        const ev = getActiveEvent();
+        const seat = ev.seats.find(s => s.id === seatId);
+        if (!seat) return;
+
+        if (state.selectedSeats.includes(seatId)) {
+          state.selectedSeats = state.selectedSeats.filter(id => id !== seatId);
+          renderSeatMap();
+          return;
+        }
+
+        if (seat.status === 'blocked') {
+          showToast(`Seat ${seat.id} is blocked and opens in ${formatMMSS(seat.blockedRemainingSec ?? 60)}. Hover to view timer.`, 'warn');
+          return;
+        }
+
+        if (seat.status !== 'available') {
+          showToast(`Seat ${seat.id} is currently ${seat.status}.`, 'warn');
+          return;
+        }
+
+        if (state.selectedSeats.length >= 4) {
+          showSeatmapAlert('<strong>Maximum 4 seats allowed:</strong> You can select up to 4 seats per booking.');
+          showToast('Up to 4 seats per booking allowed.', 'warn');
+          return;
+        }
+
+        state.selectedSeats.push(seatId);
+        state.conflictSeats = state.conflictSeats.filter(id => id !== seatId);
+        renderSeatMap();
+      }
+
+      function renderSeatMap() {
+        const ev = getActiveEvent();
+        document.getElementById('seatmap-heading').textContent = ev.title;
+        document.getElementById('seatmap-subtitle').textContent = `${ev.dateText} • ${ev.venue}`;
+
+        const board = document.getElementById('seat-board');
+        board.innerHTML = '';
+        board.style.transform = `scale(${state.zoom})`;
+        board.classList.toggle('prices-hidden', !state.showPriceTags);
+
+        const icons = {
+          available: '✓',
+          selected: '★',
+          held: '⏳',
+          booked: '✕',
+          blocked: '⊘'
+        };
+
+        ROWS.forEach((rowLetter, rIdx) => {
+          const rowEl = document.createElement('div');
+          rowEl.className = 'seat-row';
+          rowEl.setAttribute('role', 'row');
+
+          const leftLabel = document.createElement('span');
+          leftLabel.className = 'row-tag';
+          leftLabel.textContent = rowLetter;
+          rowEl.appendChild(leftLabel);
+
+          COLS.forEach((colNum, cIdx) => {
+            if (colNum === 5) {
+              const gap = document.createElement('div');
+              gap.className = 'aisle-gap';
+              gap.setAttribute('aria-hidden', 'true');
+              rowEl.appendChild(gap);
+            }
+
+            const seatId = `${rowLetter}${colNum}`;
+            const seat = ev.seats.find(s => s.id === seatId);
+            const isSelected = state.selectedSeats.includes(seatId);
+            const visualStatus = isSelected ? 'selected' : seat.status;
+
+            const wrap = document.createElement('span');
+            wrap.className = 'seat-node-wrap';
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `seat-node seat-${visualStatus}`;
+            if (state.aiHighlighted.includes(seatId) && !isSelected) {
+              btn.classList.add('seat-ai-pulse');
+            }
+            if (state.conflictSeats.includes(seatId)) {
+              btn.classList.add('seat-conflict-ring');
+            }
+
+            btn.setAttribute('role', 'gridcell');
+            btn.dataset.seatId = seatId;
+            btn.dataset.r = rIdx;
+            btn.dataset.c = cIdx;
+            btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+            btn.setAttribute('aria-disabled', (visualStatus !== 'available' && visualStatus !== 'selected') ? 'true' : 'false');
+
+            const blockedInfo = seat.status === 'blocked'
+              ? `, blocked, opens in ${formatMMSS(seat.blockedRemainingSec ?? 60)}`
+              : `, ${visualStatus}`;
+            btn.setAttribute('aria-label', `Seat ${seatId}, ₹${seat.price}, ${seat.zone}${blockedInfo}`);
+            btn.tabIndex = (state.gridFocus.r === rIdx && state.gridFocus.c === cIdx) ? 0 : -1;
+
+            btn.innerHTML = `
+              <span>${seatId}</span>
+              <span class="seat-sym" aria-hidden="true">${icons[visualStatus]}</span>
+              <span class="seat-price-tag" aria-hidden="true">₹${seat.price}</span>
+            `;
+
+            if (seat.status === 'blocked') {
+              btn.addEventListener('mouseenter', () => positionAndShowBlockedPopover(seat, btn));
+              btn.addEventListener('mouseleave', hideBlockedPopover);
+              btn.addEventListener('focus', () => positionAndShowBlockedPopover(seat, btn));
+              btn.addEventListener('blur', hideBlockedPopover);
+            }
+
+            btn.addEventListener('click', () => {
+              state.gridFocus = { r: rIdx, c: cIdx };
+              toggleSeatSelection(seatId);
+            });
+
+            btn.addEventListener('keydown', (e) => {
+              let nextR = rIdx;
+              let nextC = cIdx;
+              if (e.key === 'ArrowRight') nextC = Math.min(COLS.length - 1, cIdx + 1);
+              else if (e.key === 'ArrowLeft') nextC = Math.max(0, cIdx - 1);
+              else if (e.key === 'ArrowDown') nextR = Math.min(ROWS.length - 1, rIdx + 1);
+              else if (e.key === 'ArrowUp') nextR = Math.max(0, rIdx - 1);
+              else return;
+
+              e.preventDefault();
+              hideBlockedPopover();
+              state.gridFocus = { r: nextR, c: nextC };
+              renderSeatMap();
+              const target = document.querySelector(`.seat-node[data-r="${nextR}"][data-c="${nextC}"]`);
+              if (target) target.focus();
+            });
+
+            wrap.appendChild(btn);
+            rowEl.appendChild(wrap);
+          });
+
+          const rightLabel = document.createElement('span');
+          rightLabel.className = 'row-tag';
+          rightLabel.textContent = rowLetter;
+          rowEl.appendChild(rightLabel);
+
+          board.appendChild(rowEl);
+        });
+
+        document.getElementById('selected-count-label').textContent = state.selectedSeats.length;
+        const chipsBox = document.getElementById('selected-chips-box');
+        chipsBox.innerHTML = '';
+
+        let subtotal = 0;
+        if (state.selectedSeats.length === 0) {
+          chipsBox.innerHTML = '<span style="font-size:var(--fs-sm);color:var(--text-muted);">Tap available seats to select</span>';
+          document.getElementById('hold-seats-btn').disabled = true;
+        } else {
+          state.selectedSeats.forEach(id => {
+            const seat = ev.seats.find(item => item.id === id);
+            if (seat) {
+              subtotal += seat.price;
+              const chip = document.createElement('span');
+              chip.className = 'token-chip';
+              chip.textContent = `${seat.id} • ₹${seat.price}`;
+              chipsBox.appendChild(chip);
+            }
+          });
+          document.getElementById('hold-seats-btn').disabled = false;
+        }
+        document.getElementById('seat-subtotal-label').textContent = `₹${subtotal}`;
+      }
+
+      const togglePriceTagsBtn = document.getElementById('toggle-seat-prices-btn');
+      togglePriceTagsBtn.addEventListener('click', () => {
+        state.showPriceTags = !state.showPriceTags;
+        togglePriceTagsBtn.classList.toggle('is-active', state.showPriceTags);
+        togglePriceTagsBtn.setAttribute('aria-pressed', String(state.showPriceTags));
+        togglePriceTagsBtn.textContent = state.showPriceTags ? '₹ Price Tags: ON' : '₹ Price Tags: OFF';
+        renderSeatMap();
+      });
+
+      const seatViewport = document.getElementById('seat-viewport');
+      let panning = false;
+      let panStartX = 0;
+      let panStartScroll = 0;
+
+      seatViewport.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.seat-node')) return;
+        panning = true;
+        seatViewport.classList.add('panning');
+        panStartX = e.pageX - seatViewport.offsetLeft;
+        panStartScroll = seatViewport.scrollLeft;
+      });
+
+      window.addEventListener('mouseup', () => {
+        panning = false;
+        seatViewport.classList.remove('panning');
+      });
+
+      seatViewport.addEventListener('mousemove', (e) => {
+        if (!panning) return;
+        e.preventDefault();
+        const x = e.pageX - seatViewport.offsetLeft;
+        seatViewport.scrollLeft = panStartScroll - (x - panStartX) * 1.2;
+      });
+
+      document.getElementById('zoom-in-btn').addEventListener('click', () => {
+        state.zoom = Math.min(1.25, +(state.zoom + 0.15).toFixed(2));
+        document.getElementById('seat-board').style.transform = `scale(${state.zoom})`;
+      });
+
+      document.getElementById('zoom-out-btn').addEventListener('click', () => {
+        state.zoom = Math.max(0.8, +(state.zoom - 0.15).toFixed(2));
+        document.getElementById('seat-board').style.transform = `scale(${state.zoom})`;
+      });
+
+      document.getElementById('zoom-reset-btn').addEventListener('click', () => {
+        state.zoom = 1;
+        document.getElementById('seat-board').style.transform = 'scale(1)';
+      });
+
+      function startSeatMapTimers() {
+        stopSeatMapTimers();
+
+        state.blockedTickId = setInterval(() => {
+          const ev = getActiveEvent();
+          let anyUnlocked = false;
+          const unlockedIds = [];
+
+          ev.seats.forEach(seat => {
+            if (seat.status === 'blocked' && typeof seat.blockedRemainingSec === 'number') {
+              seat.blockedRemainingSec = Math.max(0, seat.blockedRemainingSec - 1);
+              if (seat.blockedRemainingSec === 0) {
+                seat.status = 'available';
+                seat.blockedRemainingSec = null;
+                anyUnlocked = true;
+                unlockedIds.push(seat.id);
+              }
+            }
+          });
+
+          if (anyUnlocked && state.view === 'seatmap') {
+            renderSeatMap();
+            showToast(`Blocked seat(s) ${unlockedIds.join(', ')} are now open for everyone!`, 'success');
+          } else if (state.hoveredBlockedSeatId) {
+            refreshHoveredBlockedPopoverIfOpen();
+          }
+        }, 1000);
+
+        state.pollTimerId = setInterval(() => {
+          const ev = getActiveEvent();
+          const available = ev.seats.filter(s => s.status === 'available');
+          if (available.length < 5) return;
+
+          const victim = available[Math.floor(Math.random() * available.length)];
+          victim.status = Math.random() > 0.5 ? 'held' : 'booked';
+
+          if (state.selectedSeats.includes(victim.id)) {
+            state.selectedSeats = state.selectedSeats.filter(id => id !== victim.id);
+            state.conflictSeats = [victim.id];
+            const alt = findNearestAvailable(victim.id, ev.seats);
+            showSeatmapAlert(
+              `<strong>Seat ${victim.id} was taken by another user.</strong> Removed from your selection.${alt ? ` Nearby open seat: <strong>${alt.id} (₹${alt.price})</strong>.` : ''}`,
+              alt ? alt.id : null
+            );
+            showToast(`Seat ${victim.id} taken — removed from selection.`, 'warn');
+          }
+
+          if (state.view === 'seatmap') renderSeatMap();
+        }, 7000);
+      }
+
+      function stopSeatMapTimers() {
+        if (state.blockedTickId) {
+          clearInterval(state.blockedTickId);
+          state.blockedTickId = null;
+        }
+        if (state.pollTimerId) {
+          clearInterval(state.pollTimerId);
+          state.pollTimerId = null;
+        }
+      }
+
+      function simulateSeatStealNow() {
+        const ev = getActiveEvent();
+        if (state.selectedSeats.length === 0) {
+          const open = ev.seats.filter(s => s.status === 'available').slice(0, 2);
+          state.selectedSeats = open.map(s => s.id);
+        }
+        const stolen = state.selectedSeats[0];
+        const seatObj = ev.seats.find(s => s.id === stolen);
+        if (seatObj) seatObj.status = 'booked';
+        state.selectedSeats = state.selectedSeats.filter(id => id !== stolen);
+        state.conflictSeats = [stolen];
+        const alt = findNearestAvailable(stolen, ev.seats);
+        showSeatmapAlert(
+          `<strong>Seat ${stolen} was just taken!</strong> Removed from your selection.${alt ? ` Nearby open seat: <strong>${alt.id} (₹${alt.price})</strong>.` : ''}`,
+          alt ? alt.id : null
+        );
+        renderSeatMap();
+      }
+
+      document.getElementById('simulate-conflict-now-btn').addEventListener('click', simulateSeatStealNow);
+
+      /* 4. AI Seat Assistant (Recommends Only; Never Auto-Books) */
+      function computeAiRecommendation(promptText) {
+        const ev = getActiveEvent();
+        const available = ev.seats.filter(s => s.status === 'available');
+        const q = promptText.toLowerCase();
+
+        let count = 2;
+        if (q.includes('4 ') || q.includes('four')) count = 4;
+        else if (q.includes('3 ') || q.includes('three')) count = 3;
+        else if (q.includes('1 ') || q.includes('single')) count = 1;
+
+        const budgetMatch = q.match(/under\s*₹?\s*(\d+)/);
+        const maxPrice = budgetMatch ? parseInt(budgetMatch[1], 10) : (q.includes('cheapest') ? 220 : 9999);
+
+        let pool = available.filter(s => s.price <= maxPrice);
+        if (pool.length < count) pool = available;
+
+        if (q.includes('aisle')) {
+          const aisles = pool.filter(s => s.isAisle);
+          if (aisles.length >= count) {
+            return {
+              ids: aisles.slice(0, count).map(s => s.id),
+              reason: `Aisle seats in ${aisles[0].zone} (₹${aisles[0].price} each) for easy entry and exit.`
+            };
+          }
+        }
+
+        const rowOrder = (q.includes('stage') || q.includes('paas') || q.includes('front'))
+          ? ['A', 'B', 'C', 'D', 'E', 'F']
+          : (q.includes('cheapest') ? ['F', 'E', 'D', 'C', 'B', 'A'] : ['C', 'D', 'B', 'E', 'A', 'F']);
+
+        for (const r of rowOrder) {
+          const inRow = pool.filter(s => s.row === r).sort((a, b) => a.col - b.col);
+          for (let i = 0; i <= inRow.length - count; i++) {
+            const slice = inRow.slice(i, i + count);
+            if (slice.every((s, idx) => idx === 0 || s.col === slice[idx - 1].col + 1)) {
+              return {
+                ids: slice.map(s => s.id),
+                reason: `${slice.length} seats together in Row ${r} (${slice[0].zone}, ₹${slice[0].price} each).`
+              };
+            }
+          }
+        }
+
+        const fallback = pool.slice(0, Math.min(count, 4));
+        return {
+          ids: fallback.map(s => s.id),
+          reason: 'Recommended open seats based on current live availability.'
+        };
+      }
+
+      async function requestAiSuggestion(promptText) {
+        if (state.aiAbortController) state.aiAbortController.abort();
+        const controller = new AbortController();
+        state.aiAbortController = controller;
+
+        const askBtn = document.getElementById('ai-ask-btn');
+        const stopBtn = document.getElementById('ai-stop-btn');
+        const progressEl = document.getElementById('ai-progress-text');
+        const errBanner = document.getElementById('ai-error-banner');
+        const resultCard = document.getElementById('ai-result-card');
+
+        askBtn.disabled = true;
+        stopBtn.classList.remove('hidden');
+        errBanner.classList.add('hidden');
+        resultCard.classList.add('hidden');
+        progressEl.textContent = 'Streaming seat suggestions...';
+
+        const timeoutTimer = setTimeout(() => {
+          controller.abort();
+          askBtn.disabled = false;
+          stopBtn.classList.add('hidden');
+          progressEl.textContent = '';
+          errBanner.classList.remove('hidden');
+          document.getElementById('ai-error-msg').textContent = 'AI request exceeded 8 seconds. Pick seats manually or retry.';
+        }, 8000);
+
+        try {
+          await callMockApi(1600, 2200);
+          clearTimeout(timeoutTimer);
+          if (controller.signal.aborted) return;
+
+          const suggestion = computeAiRecommendation(promptText);
+          askBtn.disabled = false;
+          stopBtn.classList.add('hidden');
+          progressEl.textContent = '';
+
+          state.aiHighlighted = suggestion.ids;
+          renderSeatMap();
+
+          document.getElementById('ai-suggested-pills').innerHTML = suggestion.ids
+            .map(id => `<span class="token-chip" style="background:var(--ai-soft);color:var(--ai-ink);">${id}</span>`)
+            .join('');
+          document.getElementById('ai-reason-text').textContent = suggestion.reason;
+          resultCard.classList.remove('hidden');
+          announce(`AI suggests ${suggestion.ids.join(', ')}. Click Use These Seats to select.`);
+        } catch {
+          clearTimeout(timeoutTimer);
+          if (controller.signal.aborted) return;
+          askBtn.disabled = false;
+          stopBtn.classList.add('hidden');
+          progressEl.textContent = '';
+          errBanner.classList.remove('hidden');
+          document.getElementById('ai-error-msg').textContent = 'AI service encountered a transient error. Manual selection works normally.';
+        }
+      }
+
+      document.querySelectorAll('[data-ai-prompt]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const p = chip.getAttribute('data-ai-prompt');
+          document.getElementById('ai-input').value = p;
+          requestAiSuggestion(p);
+        });
+      });
+
+      document.getElementById('ai-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = document.getElementById('ai-input').value.trim();
+        if (!val) {
+          showToast('Enter a preference or click a suggestion chip.', 'warn');
+          return;
+        }
+        requestAiSuggestion(val);
+      });
+
+      document.getElementById('ai-stop-btn').addEventListener('click', () => {
+        if (state.aiAbortController) state.aiAbortController.abort();
+        document.getElementById('ai-ask-btn').disabled = false;
+        document.getElementById('ai-stop-btn').classList.add('hidden');
+        document.getElementById('ai-progress-text').textContent = 'Stopped AI suggestion stream.';
+      });
+
+      document.getElementById('ai-retry-btn').addEventListener('click', () => {
+        const val = document.getElementById('ai-input').value.trim() || '2 together under ₹350';
+        requestAiSuggestion(val);
+      });
+
+      document.getElementById('ai-use-btn').addEventListener('click', () => {
+        const ev = getActiveEvent();
+        const validIds = state.aiHighlighted.filter(id => {
+          const seat = ev.seats.find(s => s.id === id);
+          return seat && seat.status === 'available';
+        }).slice(0, 4);
+
+        if (validIds.length === 0) {
+          showToast('Suggested seats are no longer available.', 'warn');
+          state.aiHighlighted = [];
+          renderSeatMap();
+          return;
+        }
+
+        state.selectedSeats = validIds;
+        state.aiHighlighted = [];
+        document.getElementById('ai-result-card').classList.add('hidden');
+        renderSeatMap();
+        showToast(`Selected ${validIds.join(', ')}.`, 'success');
+      });
+
+      document.getElementById('ai-clear-btn').addEventListener('click', () => {
+        state.aiHighlighted = [];
+        document.getElementById('ai-result-card').classList.add('hidden');
+        renderSeatMap();
+      });
+
+      /* 5. Hold Seats, 5-Minute Checkout Timer, Google Pay / UPI ID & Confirmation */
+      async function handleHoldSeats() {
+        if (state.selectedSeats.length === 0) return;
+        const holdBtn = document.getElementById('hold-seats-btn');
+        holdBtn.disabled = true;
+        holdBtn.innerHTML = '<span class="spinner"></span> Holding...';
+
+        try {
+          await callMockApi(1600, 2200);
+          holdBtn.disabled = false;
+          holdBtn.textContent = 'Hold Seats (5:00)';
+
+          const ev = getActiveEvent();
+          const conflicted = state.selectedSeats.find(id => {
+            const seat = ev.seats.find(s => s.id === id);
+            return !seat || seat.status !== 'available';
+          });
+
+          if (conflicted) {
+            state.selectedSeats = state.selectedSeats.filter(id => id !== conflicted);
+            state.conflictSeats = [conflicted];
+            const alt = findNearestAvailable(conflicted, ev.seats);
+            showSeatmapAlert(
+              `<strong>Conflict on seat ${conflicted}:</strong> Taken just before hold. Your other seat(s) were kept.${alt ? ` Nearby open seat: <strong>${alt.id} (₹${alt.price})</strong>.` : ''}`,
+              alt ? alt.id : null
+            );
+            renderSeatMap();
+            return;
+          }
+
+          state.holdSeconds = 300;
+          renderCheckout();
+          navigateTo('checkout');
+          startHoldCountdown();
+        } catch {
+          holdBtn.disabled = false;
+          holdBtn.textContent = 'Hold Seats (5:00)';
+          showSeatmapAlert('<strong>Transient error holding seats.</strong> Your selection is preserved—please retry.', null, true);
+        }
+      }
+
+      document.getElementById('hold-seats-btn').addEventListener('click', handleHoldSeats);
+
+      const payRadioGpay = document.getElementById('pay-method-gpay');
+      const payRadioUpi = document.getElementById('pay-method-upi');
+      const payCardGpay = document.getElementById('pay-card-gpay');
+      const payCardUpi = document.getElementById('pay-card-upi');
+      const gpayPanel = document.getElementById('gpay-details-panel');
+      const upiPanel = document.getElementById('upi-details-panel');
+      const upiInput = document.getElementById('upi-id-input');
+      const upiError = document.getElementById('upi-id-error');
+
+      function syncPaymentMethodUI() {
+        const isUpi = payRadioUpi.checked;
+        payCardGpay.classList.toggle('is-selected', !isUpi);
+        payCardUpi.classList.toggle('is-selected', isUpi);
+        gpayPanel.classList.toggle('hidden', isUpi);
+        upiPanel.classList.toggle('hidden', !isUpi);
+        upiError.textContent = '';
+        upiInput.removeAttribute('aria-invalid');
+      }
+
+      payRadioGpay.addEventListener('change', syncPaymentMethodUI);
+      payRadioUpi.addEventListener('change', syncPaymentMethodUI);
+      upiInput.addEventListener('input', () => {
+        upiError.textContent = '';
+        upiInput.removeAttribute('aria-invalid');
+      });
+
+      function getSelectedPaymentSummary() {
+        if (payRadioUpi.checked) {
+          const vpa = upiInput.value.trim();
+          return {
+            valid: /^[a-zA-Z0-9._-]{2,}@[a-zA-Z0-9.-]{2,}$/.test(vpa),
+            methodName: 'Pay via UPI ID',
+            label: `UPI ID (${vpa})`
+          };
+        }
+        const gpayVal = document.getElementById('gpay-handle-select').value;
+        return {
+          valid: true,
+          methodName: 'Google Pay',
+          label: gpayVal === 'google-pay-intent' ? 'Google Pay App' : `Google Pay (${gpayVal})`
+        };
+      }
+
+      function renderCheckout() {
+        const ev = getActiveEvent();
+        document.getElementById('checkout-event-meta').textContent = `${ev.title} • ${ev.dateText} • ${ev.venue}`;
+        document.getElementById('checkout-error-banner').classList.add('hidden');
+        upiError.textContent = '';
+        upiInput.removeAttribute('aria-invalid');
+        const listEl = document.getElementById('checkout-line-items');
+        listEl.innerHTML = '';
+
+        let sum = 0;
+        state.selectedSeats.forEach(id => {
+          const seat = ev.seats.find(s => s.id === id);
+          if (!seat) return;
+          sum += seat.price;
+          const row = document.createElement('div');
+          row.className = 'summary-row';
+          row.innerHTML = `<span>Seat <strong>${seat.id}</strong> (${seat.zone})</span><span>₹${seat.price}</span>`;
+          listEl.appendChild(row);
+        });
+        document.getElementById('checkout-total-label').textContent = `₹${sum + 25}`;
+        paintHoldClock();
+      }
+
+      function paintHoldClock() {
+        document.getElementById('checkout-timer-clock').textContent = formatMMSS(state.holdSeconds);
+        const banner = document.getElementById('checkout-timer-banner');
+        const note = document.getElementById('checkout-timer-note');
+        if (state.holdSeconds <= 60) {
+          banner.classList.add('urgent');
+          note.textContent = '1 minute left! Complete payment before the hold expires.';
+        } else {
+          banner.classList.remove('urgent');
+          note.textContent = 'Confirm booking before timer reaches 00:00 or seats return to the map.';
+        }
+      }
+
+      function startHoldCountdown() {
+        stopHoldCountdown();
+        state.holdTimerId = setInterval(() => {
+          state.holdSeconds -= 1;
+          paintHoldClock();
+          if (state.holdSeconds === 60) {
+            showToast('1 minute remaining on your seat hold!', 'warn');
+          }
+          if (state.holdSeconds <= 0) {
+            stopHoldCountdown();
+            state.selectedSeats = [];
+            navigateTo('seatmap');
+            showSeatmapAlert('<strong>Hold expired:</strong> Your 5-minute hold ended and seats were released.');
+          }
+        }, 1000);
+      }
+
+      function stopHoldCountdown() {
+        if (state.holdTimerId) {
+          clearInterval(state.holdTimerId);
+          state.holdTimerId = null;
+        }
+      }
+
+      document.getElementById('checkout-cancel-btn').addEventListener('click', () => {
+        stopHoldCountdown();
+        navigateTo('seatmap');
+        showToast('Hold cancelled.', 'info');
+      });
+
+      async function handleConfirmBooking() {
+        const payment = getSelectedPaymentSummary();
+        if (!payment.valid) {
+          upiError.textContent = 'Enter a valid UPI ID such as mridul.pathania@okhdfcbank.';
+          upiInput.setAttribute('aria-invalid', 'true');
+          upiInput.focus();
+          return;
+        }
+
+        const btn = document.getElementById('checkout-confirm-btn');
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner"></span> Paying via ${payment.methodName}...`;
+        document.getElementById('checkout-error-banner').classList.add('hidden');
+
+        try {
+          await callMockApi(1600, 2200);
+          btn.disabled = false;
+          btn.textContent = 'Confirm Booking';
+
+          const ev = getActiveEvent();
+          let sum = 0;
+          state.selectedSeats.forEach(id => {
+            const seat = ev.seats.find(s => s.id === id);
+            if (seat) {
+              seat.status = 'booked';
+              sum += seat.price;
+            }
+          });
+
+          const booking = {
+            id: `GS-${Math.floor(1000 + Math.random() * 8999)}`,
+            eventId: ev.id,
+            eventTitle: ev.title,
+            dateText: ev.dateText,
+            venue: ev.venue,
+            seats: [...state.selectedSeats],
+            total: sum + 25,
+            paymentLabel: payment.label,
+            status: 'upcoming'
+          };
+
+          state.bookings.unshift(booking);
+          state.lastBooking = booking;
+          state.selectedSeats = [];
+          stopHoldCountdown();
+
+          document.getElementById('pass-event-title').textContent = booking.eventTitle;
+          document.getElementById('pass-event-venue').textContent = `${booking.dateText} • ${booking.venue}`;
+          document.getElementById('pass-seats-value').textContent = booking.seats.join(', ');
+          document.getElementById('pass-ref-value').textContent = `${booking.id} • ₹${booking.total}`;
+          document.getElementById('pass-payment-badge').textContent = booking.paymentLabel;
+
+          navigateTo('success');
+          showToast(`Booking confirmed via ${payment.methodName}!`, 'success');
+        } catch {
+          btn.disabled = false;
+          btn.textContent = 'Confirm Booking';
+          document.getElementById('checkout-error-banner').classList.remove('hidden');
+        }
+      }
+
+      document.getElementById('checkout-confirm-btn').addEventListener('click', handleConfirmBooking);
+      document.getElementById('checkout-retry-btn').addEventListener('click', handleConfirmBooking);
+
+      /* Allow uploading/replacing the SCAN ME ticket photo on the Booking Confirmed page */
+      document.getElementById('ticket-photo-upload').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const imgEl = document.getElementById('scan-ticket-photo');
+        const svgWrap = document.getElementById('scan-me-svg-wrap');
+        const reader = new FileReader();
+        reader.onload = () => {
+          imgEl.src = reader.result;
+          imgEl.classList.remove('hidden');
+          if (svgWrap) svgWrap.classList.add('hidden');
+          showToast('Updated ticket photo on Booking Confirmed pass.', 'success');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('download-ics-btn').addEventListener('click', () => {
+        if (!state.lastBooking) return;
+        const b = state.lastBooking;
+        const icsContent = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'BEGIN:VEVENT',
+          `SUMMARY:Get your SEAT — ${b.eventTitle} (${b.seats.join(', ')})`,
+          `LOCATION:${b.venue}`,
+          `DESCRIPTION:Pass ${b.id} for Mridul Pathania (${b.paymentLabel})`,
+          'DTSTART:20261128T193000',
+          'DTEND:20261128T223000',
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ].join('\r\n');
+
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${b.id}.ics`;
+        link.click();
+        URL.revokeObjectURL(url);
+        showToast('Calendar invite (.ics) downloaded.', 'success');
+      });
+
+      /* ======================================================================
+         6. MY BOOKINGS + SEAT-QUANTITY CANCELLATION & REFUND POP-UP
+         ====================================================================== */
+      document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.addEventListener('click', () => {
+          state.bookingsTab = tab.getAttribute('data-tab');
+          document.querySelectorAll('.tab-btn').forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+          renderBookings();
+        });
+      });
+
+      function renderBookings() {
+        const listEl = document.getElementById('bookings-list');
+        const items = state.bookings.filter(b => b.status === state.bookingsTab);
+        listEl.innerHTML = '';
+
+        if (items.length === 0) {
+          listEl.innerHTML = `
+            <div class="glass-card" style="padding:var(--space-8);text-align:center;">
+              <h2 style="margin:0 0 0.4rem;">No ${state.bookingsTab} bookings</h2>
+              <p class="page-subtitle" style="margin-bottom:var(--space-4);">Browse events on Get your SEAT to reserve seats.</p>
+              <button type="button" class="btn btn-primary" id="empty-browse-btn">Browse Events</button>
+            </div>
+          `;
+          const browseBtn = document.getElementById('empty-browse-btn');
+          if (browseBtn) browseBtn.onclick = () => navigateTo('events');
+          return;
+        }
+
+        items.forEach(b => {
+          const card = document.createElement('div');
+          card.className = 'glass-card booking-card';
+          const statusTag = b.status === 'upcoming'
+            ? `<button type="button" class="btn btn-danger btn-sm" data-cancel-booking="${b.id}">Cancel Booking</button>`
+            : `<span class="token-chip">${b.cancelledNote ? 'Cancelled' : 'Past Event'}</span>`;
+
+          card.innerHTML = `
+            <div>
+              <div style="font-family:var(--font-mono);font-size:var(--fs-xs);font-weight:700;color:var(--accent-ink);">${b.id}</div>
+              <h2 style="margin:0.2rem 0;font-size:var(--fs-lg);">${b.eventTitle}</h2>
+              <div style="font-size:var(--fs-xs);color:var(--text-secondary);">${b.dateText} • ${b.venue}</div>
+              <div style="margin-top:0.55rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+                <span class="token-chip">Seats: ${b.seats.join(', ')}</span>
+                <span style="font-size:var(--fs-xs);font-weight:700;">₹${b.total}</span>
+                <span style="font-size:var(--fs-xs);color:var(--text-muted);">• ${b.paymentLabel || 'Google Pay'}</span>
+              </div>
+              ${b.cancelledNote ? `<div style="margin-top:0.35rem;font-size:var(--fs-xs);color:var(--success-ink);font-weight:600;">${b.cancelledNote}</div>` : ''}
+            </div>
+            ${statusTag}
+          `;
+          listEl.appendChild(card);
+        });
+
+        listEl.querySelectorAll('[data-cancel-booking]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            openCancelModalForBooking(btn.getAttribute('data-cancel-booking'));
+          });
+        });
+      }
+
+      function computeRefundForSeats(booking, selectedSeatIds) {
+        if (!booking || selectedSeatIds.length === 0) return 0;
+        const ev = EVENTS.find(e => e.id === booking.eventId);
+        let seatSum = 0;
+        selectedSeatIds.forEach(sid => {
+          const seatObj = ev ? ev.seats.find(s => s.id === sid) : null;
+          seatSum += seatObj ? seatObj.price : getSeatPriceById(sid);
+        });
+        // Include the ₹25 booking fee when cancelling all seats in the reservation
+        const isFullCancel = selectedSeatIds.length === booking.seats.length;
+        return isFullCancel ? booking.total : seatSum;
+      }
+
+      function openCancelModalForBooking(bookingId) {
+        const target = state.bookings.find(item => item.id === bookingId);
+        if (!target) return;
+
+        state.cancelTargetId = bookingId;
+        // Default to cancelling 1 seat (or all if single-seat booking)
+        state.cancelSeatIds = [target.seats[0]];
+
+        document.getElementById('cancel-modal-desc').textContent =
+          `Booking ${target.id} • ${target.eventTitle} (${target.seats.length} seat${target.seats.length > 1 ? 's' : ''} booked)`;
+
+        renderCancelModalControls();
+        document.getElementById('cancel-modal').classList.remove('hidden');
+        document.getElementById('cancel-modal-yes').focus();
+      }
+
+      function renderCancelModalControls() {
+        const target = state.bookings.find(item => item.id === state.cancelTargetId);
+        if (!target) return;
+
+        const qtyWrap = document.getElementById('cancel-qty-selector');
+        const listWrap = document.getElementById('cancel-seat-checklist');
+        qtyWrap.innerHTML = '';
+        listWrap.innerHTML = '';
+
+        const totalBooked = target.seats.length;
+        const selectedCount = state.cancelSeatIds.length;
+
+        // 1. Quantity pills: "1 seat", "2 seats", ..., up to totalBooked
+        for (let count = 1; count <= totalBooked; count++) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'qty-choice-btn';
+          const isAll = count === totalBooked && totalBooked > 1;
+          btn.textContent = isAll ? `${count} seats (All)` : `${count} ${count === 1 ? 'seat' : 'seats'}`;
+          btn.setAttribute('aria-pressed', selectedCount === count ? 'true' : 'false');
+          btn.addEventListener('click', () => {
+            state.cancelSeatIds = target.seats.slice(0, count);
+            renderCancelModalControls();
+          });
+          qtyWrap.appendChild(btn);
+        }
+
+        // 2. Individual seat checkboxes so user can also pick exact seat IDs
+        const ev = EVENTS.find(e => e.id === target.eventId);
+        target.seats.forEach(sid => {
+          const seatObj = ev ? ev.seats.find(s => s.id === sid) : null;
+          const seatPrice = seatObj ? seatObj.price : getSeatPriceById(sid);
+          const isChecked = state.cancelSeatIds.includes(sid);
+
+          const label = document.createElement('label');
+          label.className = `cancel-seat-item ${isChecked ? 'is-checked' : ''}`;
+
+          const left = document.createElement('span');
+          left.style.cssText = 'display:inline-flex;align-items:center;gap:0.55rem;font-weight:700;';
+
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.checked = isChecked;
+          cb.style.cssText = 'width:17px;height:17px;accent-color:#dc2626;cursor:pointer;';
+          cb.addEventListener('change', () => {
+            if (cb.checked) {
+              if (!state.cancelSeatIds.includes(sid)) {
+                state.cancelSeatIds.push(sid);
+              }
+            } else {
+              // Keep at least 1 seat selected for cancellation
+              if (state.cancelSeatIds.length <= 1) {
+                cb.checked = true;
+                showToast('Select at least 1 seat to cancel.', 'warn');
+                return;
+              }
+              state.cancelSeatIds = state.cancelSeatIds.filter(id => id !== sid);
+            }
+            renderCancelModalControls();
+          });
+
+          const seatText = document.createElement('span');
+          seatText.style.fontFamily = 'var(--font-mono)';
+          seatText.textContent = `Seat ${sid}`;
+
+          left.append(cb, seatText);
+
+          const priceTag = document.createElement('span');
+          priceTag.style.cssText = 'font-family:var(--font-mono);font-size:var(--fs-xs);font-weight:700;';
+          priceTag.textContent = `₹${seatPrice}`;
+
+          label.append(left, priceTag);
+          listWrap.appendChild(label);
+        });
+
+        const refundAmount = computeRefundForSeats(target, state.cancelSeatIds);
+        document.getElementById('cancel-seat-count-summary').textContent =
+          `${state.cancelSeatIds.length} ${state.cancelSeatIds.length === 1 ? 'seat' : 'seats'}`;
+        document.getElementById('cancel-refund-amount-preview').textContent = `₹${refundAmount}`;
+      }
+
+      document.getElementById('cancel-modal-no').addEventListener('click', () => {
+        state.cancelTargetId = null;
+        state.cancelSeatIds = [];
+        document.getElementById('cancel-modal').classList.add('hidden');
+      });
+
+      document.getElementById('cancel-modal-yes').addEventListener('click', async () => {
+        const id = state.cancelTargetId;
+        const seatsToCancel = [...state.cancelSeatIds];
+        if (!id || seatsToCancel.length === 0) return;
+
+        const target = state.bookings.find(b => b.id === id);
+        if (!target) return;
+
+        const confirmBtn = document.getElementById('cancel-modal-yes');
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<span class="spinner"></span> Cancelling...';
+
+        const refundAmount = computeRefundForSeats(target, seatsToCancel);
+        const remainingSeats = target.seats.filter(sid => !seatsToCancel.includes(sid));
+        const isFullCancellation = remainingSeats.length === 0;
+
+        try {
+          await callMockApi(900, 1400);
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Confirm Cancellation';
+          document.getElementById('cancel-modal').classList.add('hidden');
+
+          // Release the cancelled seats back to Available on the event's seat map
+          const ev = EVENTS.find(e => e.id === target.eventId);
+          if (ev) {
+            seatsToCancel.forEach(sid => {
+              const seat = ev.seats.find(s => s.id === sid);
+              if (seat) seat.status = 'available';
+            });
+          }
+
+          if (isFullCancellation) {
+            target.status = 'past';
+            target.cancelledNote = `Cancelled all ${seatsToCancel.length} seat(s) (${seatsToCancel.join(', ')}) • Refund ₹${refundAmount}`;
+          } else {
+            target.seats = remainingSeats;
+            target.total = Math.max(0, target.total - refundAmount);
+            // Record a past receipt entry for the partially cancelled seats
+            state.bookings.unshift({
+              id: `${target.id}-CXL`,
+              eventId: target.eventId,
+              eventTitle: target.eventTitle,
+              dateText: target.dateText,
+              venue: target.venue,
+              seats: seatsToCancel,
+              total: refundAmount,
+              paymentLabel: target.paymentLabel,
+              status: 'past',
+              cancelledNote: `Cancelled ${seatsToCancel.length} seat(s) (${seatsToCancel.join(', ')}) • Refund ₹${refundAmount}`
+            });
+          }
+
+          state.cancelTargetId = null;
+          state.cancelSeatIds = [];
+          renderBookings();
+
+          // Show the Refund Confirmation Pop-Up with the requested message
+          document.getElementById('refund-popup-details').textContent =
+            `Cancelled ${seatsToCancel.length} ${seatsToCancel.length === 1 ? 'seat' : 'seats'} (${seatsToCancel.join(', ')}) • Refund: ₹${refundAmount}`;
+          document.getElementById('refund-popup-modal').classList.remove('hidden');
+          document.getElementById('refund-popup-ok-btn').focus();
+          announce('Booking cancelled. Your refunded money will be credited to your account with-in 2-3 working days.');
+        } catch {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Confirm Cancellation';
+          document.getElementById('cancel-modal').classList.add('hidden');
+          showToast(`Could not cancel ${id} due to server error. Please try again.`, 'danger');
+        }
+      });
+
+      document.getElementById('refund-popup-ok-btn').addEventListener('click', () => {
+        document.getElementById('refund-popup-modal').classList.add('hidden');
+      });
+
+      initTheme();
+      navigateTo('login');
+    })();
+  </script>
+</body>
+</html>
